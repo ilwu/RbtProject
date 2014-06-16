@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "excel-operate-export.dtd">
+
+<!-- =================================================================================== -->
+<!-- ExcelOperate 套件 匯出功能的設定檔 -->
+<!-- =================================================================================== -->
+<config>
+
+	<!-- =================================================================================== -->
+	<!-- FUNCTION 設定區 -->
+	<!-- =================================================================================== -->
+	<!-- 產生序號 -->
+	<function funcId="GEN_SEQ" className="com.rbt.util.exceloperate.function.ExcelOperateFunctionImpl" method="SEQ" />
+	<!-- 產生民國年日期 -->
+	<function funcId="CURR_ROC_DATE" className="com.rbt.util.exceloperate.function.ExcelOperateFunctionImpl" method="CURR_ROC_DATE" />
+
+	<!-- =================================================================================== -->
+	<!-- 匯出Excel格式 設定區 -->
+	<!-- =================================================================================== -->
+
+	<!-- ======================================================== -->
+	<!-- 畢業生資料維護作業 -> 訓練生基本資料 -->
+	<!-- ======================================================== -->
+	<excel id="08-01-01-01" fileName="訓練生基本資料.xls">
+		<style size="10"/>
+		<sheet sheetName="訓練生基本資料">
+			<!-- ========================== -->
+			<!-- title [context] 單筆欄位 -->
+			<!-- ========================== -->
+			<context dataId="title">
+				<tr>
+					<td defaultValue="「雙軌訓練旗艦計畫」訓練生基本資料" colspan="24" size="18" bold="true" />
+				</tr>
+				<tr>
+					<td colspan="22" />
+					<td defaultValue="製表日期：" align="right" size="10" bold="true" />
+					<td funcId="CURR_ROC_DATE" size="10" bold="true" />
+				</tr>
+			</context>
+			<!-- ========================== -->
+			<!-- 表頭 [context] 單筆欄位 -->
+			<!-- ========================== -->
+			<context dataId="header">
+				<tr background="GRAY_25" size="12">
+					<td defaultValue="編號" width="8"/>
+					<td defaultValue="入學年度" width="6"/>
+					<td defaultValue="學制" width="6"/>
+					<td defaultValue="姓名" width="10"/>
+					<td defaultValue="學校名稱" width="35"/>
+					<td defaultValue="事業單位名稱" width="40"/>
+					<td defaultValue="職類" width="24"/>
+					<td defaultValue="班別" width="20"/>
+					<td defaultValue="學號" width="12"/>
+					<td defaultValue="身分證字號" width="14"/>
+					<td defaultValue="出生日期" width="12"/>
+					<td defaultValue="性別" width="6"/>
+					<td defaultValue="聯絡電話" />
+					<td defaultValue="行動電話" />
+					<td defaultValue="聯絡人" width="10"/>
+					<td defaultValue="聯絡人電話" />
+					<td defaultValue="聯絡人行動電話" width="18"/>
+					<td defaultValue="郵遞區號" width="10"/>
+					<td defaultValue="住址" width="50"/>
+					<td defaultValue="訓練生英文名" width="22"/>
+					<td defaultValue="電子郵件" width="34"/>
+					<td defaultValue="就業動向代碼" width="8"/>
+					<td defaultValue="就業動向" />
+					<td defaultValue="詳細情形" width="34"/>
+				</tr>
+			</context>
+			<!-- ========================== -->
+			<!-- detail [detail] 多筆欄位 -->
+			<!-- ========================== -->
+			<detail dataId="detail">
+				<column funcId="GEN_SEQ" /><!-- 編號 -->
+				<column key="YEAR" /><!-- 入學年度 -->
+				<column key="ES_NAME_CHN" /><!-- 學制 -->
+				<column key="NAME" /><!-- 姓名 -->
+				<column key="SCHOOL_CHN_NAME" align="left"/><!-- 學校名稱 -->
+				<column key="CORP_CHN_NAME" align="left"/><!-- 事業單位名稱 -->
+				<column key="ST_CHN_NAME" align="left"/><!-- 職類 -->
+				<column key="CLASS_NAME" align="left"/><!-- 班別 -->
+				<column key="STUDY_ID" /><!-- 學號 -->
+				<column key="IDCARD_NUM" /><!-- 身分證字號 -->
+				<column key="BIRTHDAY" /><!-- 出生日期 -->
+				<column key="SEX_NAME" /><!-- 性別 -->
+				<column key="HOME_PHONE" align="left"/><!-- 聯絡電話 -->
+				<column key="MOBILE_PHONE" align="left"/><!-- 行動電話 -->
+				<column key="LM_NAME" /><!-- 聯絡人 -->
+				<column key="LM_PHONE" align="left"/><!-- 聯絡人電話 -->
+				<column key="LM_MOBILE_PHONE" align="left"/><!-- 聯絡人行動電話 -->
+				<column key="POST_ID" /><!-- 郵遞區號 -->
+				<column key="ADDRESS" align="left"/><!-- 住址 -->
+				<column key="ENG_NAME" align="left"/><!-- 訓練生英文名 -->
+				<column key="EMAIL" align="left"/><!-- 電子郵件 -->
+				<column key="WORK_CODE" /><!-- 就業動向代碼 -->
+				<column key="WORK_CODE_NAME" align="left"/><!-- 就業動向 -->
+				<column key="DETAIL" align="left"/><!-- 詳細情形 -->
+			</detail>
+		</sheet>
+	</excel>
+
+	<!-- ======================================================== -->
+	<!-- 畢業生資料維護作業 ->各校就業率 -->
+	<!-- ======================================================== -->
+	<excel id="08-01-01-02" fileName="各校就業率.xls">
+		<style width="10"/>
+		<sheet sheetName="各校就業率">
+			<!-- ========================== -->
+			<!-- title [context] 單筆欄位 -->
+			<!-- ========================== -->
+			<context dataId="title">
+				<tr>
+					<td defaultValue="「雙軌訓練旗艦計畫」畢業生就業調查表" colspan="18" size="18" bold="true" />
+				</tr>
+				<tr>
+					<td colspan="16" />
+					<td defaultValue="製表日期：" align="right" size="10" bold="true" />
+					<td funcId="CURR_ROC_DATE" align="left" size="10" bold="true" />
+				</tr>
+			</context>
+			<!-- ========================== -->
+			<!-- header [context] 單筆欄位 -->
+			<!-- ========================== -->
+			<context dataId="header">
+				<tr background="GRAY_25" >
+					<td defaultValue="編號" rowspan="2" width="8"/>
+					<td defaultValue="學校" rowspan="2" width="36"/>
+					<td defaultValue="入學年度" rowspan="2" />
+					<td defaultValue="1.留任" rowspan="2" />
+					<td defaultValue="2.就業" rowspan="2" />
+					<td defaultValue="3.升學" colspan="5" />
+					<td defaultValue="4.服役" rowspan="2" />
+					<td defaultValue="5.創業" rowspan="2" />
+					<td defaultValue="6.待業" rowspan="2" />
+					<td defaultValue="7.其他" colspan="3" />
+					<td defaultValue="8.總數" rowspan="2" />
+					<td defaultValue="就業率" rowspan="2" width="24" />
+				</tr>
+				<tr background="GRAY_25">
+					<td defaultValue="一般學制(要打工)" />
+					<td defaultValue="一般學制(不要打工)" />
+					<td defaultValue="繼續就讀本計畫" />
+					<td defaultValue="其他建教合作" />
+					<td defaultValue="出國讀書" />
+					<td defaultValue="生病休養" />
+					<td defaultValue="國家考試" />
+					<td defaultValue="不確定" />
+				</tr>
+			</context>
+			<!-- ========================== -->
+			<!-- detail [detail] 多筆欄位 -->
+			<!-- ========================== -->
+			<detail dataId="detail">
+				<column key="SEQ" funcId="GEN_SEQ"/>
+				<column key="SCHOOL_CHN_NAME" />
+				<column>
+					<!-- ========================== -->
+					<!-- [column.array] 多筆欄位 -->
+					<!-- ========================== -->
+					<array dataId="yearDataList">
+						<column key="YEAR" />
+						<column key="1" defaultValue="0"/>
+						<column key="2" defaultValue="0"/>
+						<column key="3-1" defaultValue="0"/>
+						<column key="3-2" defaultValue="0"/>
+						<column key="3-3" defaultValue="0"/>
+						<column key="3-4" defaultValue="0"/>
+						<column key="3-5" defaultValue="0"/>
+						<column key="4" defaultValue="0"/>
+						<column key="5" defaultValue="0"/>
+						<column key="6" defaultValue="0"/>
+						<column key="7-1" defaultValue="0"/>
+						<column key="7-2" defaultValue="0"/>
+						<column key="7-3" defaultValue="0"/>
+						<column key="8" defaultValue="0"/>
+						<column key="EMPLOYMENT_RATE" />
+					</array>
+					<!-- ========================== -->
+					<!-- [column.single] 單筆欄位 -->
+					<!-- ========================== -->
+					<single dataId="countMap">
+						<column defaultValue="小計" />
+						<column key="1" defaultValue="0"/>
+						<column key="2" defaultValue="0"/>
+						<column key="3" defaultValue="0" colspan="5" />
+						<column key="4" defaultValue="0"/>
+						<column key="5" defaultValue="0"/>
+						<column key="6" defaultValue="0"/>
+						<column key="7" defaultValue="0" colspan="3" />
+						<column key="8" defaultValue="0"/>
+						<column key="EMPLOYMENT_RATE" />
+					</single>
+				</column>
+			</detail>
+		</sheet>
+	</excel>
+</config>

@@ -1,0 +1,200 @@
+<!-- -->
+<!-- ILOG Java 2 CSharp translator mapping file for project RbtProject -->
+<!-- -->
+<mapping>
+   <!--          -->
+   <!-- packages -->
+   <!--          -->
+   <packages>
+      <!--               -->
+      <!-- allen.story -->
+      <!--              -->
+      <package name="allen.story">
+      </package>
+      <!--               -->
+      <!-- com.rbt.app -->
+      <!--              -->
+      <package name="com.rbt.app">
+      </package>
+      <!--               -->
+      <!-- com.rbt.evaimport -->
+      <!--              -->
+      <package name="com.rbt.evaimport">
+      </package>
+      <!--               -->
+      <!-- com.rbt.exception -->
+      <!--              -->
+      <package name="com.rbt.exception">
+      </package>
+      <!--               -->
+      <!-- com.rbt.export.test -->
+      <!--              -->
+      <package name="com.rbt.export.test">
+      </package>
+      <!--               -->
+      <!-- com.rbt.filiter -->
+      <!--              -->
+      <package name="com.rbt.filiter">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework -->
+      <!--              -->
+      <package name="com.rbt.framework">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.converters -->
+      <!--              -->
+      <package name="com.rbt.framework.converters">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.criterion -->
+      <!--              -->
+      <package name="com.rbt.framework.criterion">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.dao -->
+      <!--              -->
+      <package name="com.rbt.framework.dao">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.dao.impl -->
+      <!--              -->
+      <package name="com.rbt.framework.dao.impl">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.exception -->
+      <!--              -->
+      <package name="com.rbt.framework.exception">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.job -->
+      <!--              -->
+      <package name="com.rbt.framework.job">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.model -->
+      <!--              -->
+      <package name="com.rbt.framework.model">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.util -->
+      <!--              -->
+      <package name="com.rbt.framework.util">
+      </package>
+      <!--               -->
+      <!-- com.rbt.framework.web -->
+      <!--              -->
+      <package name="com.rbt.framework.web">
+      </package>
+      <!--               -->
+      <!-- com.rbt.mq -->
+      <!--              -->
+      <package name="com.rbt.mq">
+      </package>
+      <!--               -->
+      <!-- com.rbt.mvc.action -->
+      <!--              -->
+      <package name="com.rbt.mvc.action">
+      </package>
+      <!--               -->
+      <!-- com.rbt.mvc.action.base -->
+      <!--              -->
+      <package name="com.rbt.mvc.action.base">
+      </package>
+      <!--               -->
+      <!-- com.rbt.mvc.exception -->
+      <!--              -->
+      <package name="com.rbt.mvc.exception">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util -->
+      <!--              -->
+      <package name="com.rbt.util">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.db -->
+      <!--              -->
+      <package name="com.rbt.util.db">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.db.orcalediff -->
+      <!--              -->
+      <package name="com.rbt.util.db.orcalediff">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.excel -->
+      <!--              -->
+      <package name="com.rbt.util.excel">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate.bean.common -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate.bean.common">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate.bean.expt -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate.bean.expt">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate.bean.expt.config -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate.bean.expt.config">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate.bean.impt.config -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate.bean.impt.config">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate.config -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate.config">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate.exception -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate.exception">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.exceloperate.function -->
+      <!--              -->
+      <package name="com.rbt.util.exceloperate.function">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.file -->
+      <!--              -->
+      <package name="com.rbt.util.file">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.formatter -->
+      <!--              -->
+      <package name="com.rbt.util.formatter">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.google.map -->
+      <!--              -->
+      <package name="com.rbt.util.google.map">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.google.map.bean -->
+      <!--              -->
+      <package name="com.rbt.util.google.map.bean">
+      </package>
+      <!--               -->
+      <!-- com.rbt.util.readfile -->
+      <!--              -->
+      <package name="com.rbt.util.readfile">
+      </package>
+      <!--               -->
+      <!-- test -->
+      <!--              -->
+      <package name="test">
+      </package>
+   </packages>
+</mapping>

@@ -1,0 +1,1162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "excel-operate-import.dtd">
+
+<!-- =================================================================================== -->
+<!-- ExcelOperate 套件 匯入功能的設定檔 -->
+<!-- =================================================================================== -->
+<config>
+
+	<!-- =================================================================================== -->
+	<!-- FUNCTION 設定區 -->
+	<!-- =================================================================================== -->
+	<!-- 產生序號 -->
+	<function funcId="GEN_SEQ" className="com.rbt.util.exceloperate.function.ExcelOperateFunctionImpl" method="SEQ" />
+	<!-- 產生民國年日期 -->
+	<function funcId="CURR_ROC_DATE" className="com.rbt.util.exceloperate.function.ExcelOperateFunctionImpl" method="CURR_ROC_DATE" />
+	<!-- 下SQL取值 -->
+	<function funcId="SQL_SELECT" className="com.rbt.evaimport.EvaImportFunctionImpl" method="SELECT" />
+	<!-- 產生UID -->
+	<function funcId="GEN_UID" className="com.rbt.evaimport.EvaImportFunctionImpl" method="GEN_UID" />
+	<!-- 長度限制 -->
+	<function funcId="LENGTH_LIMIT" className="com.rbt.evaimport.EvaImportFunctionImpl" method="LENGTH_LIMIT" />
+	<!-- 長度限制 -->
+	<function funcId="CURR_DATE_TIME" className="com.rbt.evaimport.EvaImportFunctionImpl" method="CURR_DATE_TIME" />
+	<!-- 複製別的欄位 -->
+	<function funcId="COPY_COLUMN" className="com.rbt.evaimport.EvaImportFunctionImpl" method="COPY_COLUMN" />
+	<!-- 日期格式化 -->
+	<function funcId="DATE_FORMAT" className="com.rbt.evaimport.EvaImportFunctionImpl" method="DATE_FORMAT" />
+	<!-- 值為空時，放入全形空白 -->
+	<function funcId="EMPTY_TO_FULL_SPACE" className="com.rbt.evaimport.EvaImportFunctionImpl" method="EMPTY_TO_FULL_SPACE" />
+	<!-- 左補零 -->
+	<function funcId="LEFT_PAD_ZERO" className="com.rbt.evaimport.EvaImportFunctionImpl" method="LEFT_PAD_ZERO" />
+	<!-- 將字串轉為相對應參數 -->
+	<function funcId="REPLACE_TO_PARAM" className="com.rbt.evaimport.EvaImportFunctionImpl" method="REPLACE_TO_PARAM" />
+	<!-- 民國年轉西元年 -->
+	<function funcId="CONVERT_AD_YEAR" className="com.rbt.evaimport.EvaImportFunctionImpl" method="CONVERT_AD_YEAR" />
+
+	<!-- =================================================================================== -->
+	<!-- 正規表示式檢核設定區 -->
+	<!-- =================================================================================== -->
+	<!-- 身份證字號 -->
+	<format formatId="ID_NUM" regex="^[A-Z]{1}[1-2]{1}[0-9]{8}$" />
+	<!-- 生日 -->
+	<format formatId="BIRTHDAY" regex="^[A-Z]{1}[1-2]{1}[0-9]{8}$" />
+	<!-- 統編 -->
+	<format formatId="BUSINESS_REGISTRATION_CODE" regex="^[A-Z]{1}[1-2]{1}[0-9]{8}$" />
+	<!-- 日期 -->
+	<format formatId="FORMAT_DATE" regex="^(19|20)[0-9]{2}[\/\-\.](0[1-9]|1[012])[\/\-\.](0[1-9]|[12][0-9]|3[01])$" />
+
+	<!-- =================================================================================== -->
+	<!-- 匯入Excel格式 設定區 -->
+	<!-- =================================================================================== -->
+
+	<!-- ====================================================================== -->
+	<!-- 學校資料匯入 -->
+	<!-- ====================================================================== -->
+	<excel id="school" desc="學校資料匯入" sheetNum="1" startRow="3" checkEmptyRow="false">
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" />
+			<column desc="組合表代碼" key="OTHER" pass="true" />
+			<column desc="年度" key="YEAR" pass="true" />
+			<column desc="申請日期" key="APPLY_DATE" funcId="DATE_FORMAT" />
+			<column desc="學校名稱(中文)" key="SCHOOL_CHN_NAME" />
+			<column desc="學校名稱(英文)" key="SCHOOL_ENG_NAME" />
+			<column desc="國/私立(代碼)" key="SCHOOL_KIND" />
+			<column desc="學校郵遞區號" key="POST_ID" />
+			<column desc="學校所在縣市" key="CITY" pass="true" />
+			<column desc="學校所在鄉鎮" key="TOWN" pass="true" />
+			<column desc="學校地址(中文)" key="CHN_ADDRESS" />
+			<column desc="學校地址(英文)" key="ENG_ADDRESS" />
+			<column desc="統一編號" key="SCHOOL_ID" />
+			<column desc="學校網址" key="SCHOOL_WEBSET" />
+			<column desc="校長姓名" key="SCHOOL_MASTER" />
+			<column desc="聯絡人" key="LM_NAME" />
+			<column desc="聯絡人職稱" key="LM_TITLE" />
+			<column desc="聯絡人電話" key="LM_PHONE" />
+			<column desc="聯絡人分機" key="LM_BRANCH_PHONE" />
+			<column desc="聯絡人手機" key="LM_MOBILE_PHONE" />
+			<column desc="聯絡人傳真" key="LM_FAX" />
+			<column desc="電子郵件" key="LM_EMAIL" />
+			<column desc="所屬單位" key="BELONG_UNIT" />
+			<column desc="訓練協調經理" key="TL_NAME" />
+			<column desc="訓練協調經理聯絡電話" key="TL_PHONE" />
+			<column desc="訓練協調經理聯絡分機" key="TL_BRANCH_PHONE" />
+			<column desc="備註" key="MEMO" />
+			<column desc="學校簡介-中文" key="SCHOOL_INTRO_CHN" funcId="LENGTH_LIMIT" funcParam="1900" />
+			<column desc="學校簡介-英文" key="SCHOOL_INTRO_ENG" funcId="LENGTH_LIMIT" funcParam="1900" />
+			<column desc="指派人" key="ASSIGN" pass="true" />
+		</read>
+		<params>
+			<param desc="TD_SCHOOL_BASE內部編號" key="SCHOOL_BASE_UID" funcId="GEN_UID" funcParam="SB[DATE2-14][R][NUM5]" />
+			<param desc="CITY_UID" key="CITY_UID" funcId="SQL_SELECT" funcParam="SELECT CITY_UID FROM TB_CITY WHERE CITY_NAME ='#CITY#'" />
+			<param desc="TOWN_UID" key="TOWN_UID" funcId="SQL_SELECT" funcParam="SELECT TOWN_UID FROM TB_TOWN A LEFT JOIN TB_CITY B ON A.CITY_UID = B.CITY_UID WHERE CITY_NAME ='#CITY#' AND TOWN_NAME ='#TOWN#'" />
+
+			<param key="APPLY_UID"> <!-- TODO 需修改 -->
+				<defaultValue>00000000000000000000</defaultValue>
+			</param>
+
+			<param key="APPLY_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="ASSIGN_UID" funcId="SQL_SELECT" funcParam="SELECT USER_UID FROM TS_USER WHERE USER_ID ='#ASSIGN#'" />
+			<param key="ASSIGN_DATE" funcId="COPY_COLUMN" funcParam="APPLY_DATE" />
+			<param key="ASSIGN_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="AUTH_UID" funcId="SQL_SELECT" funcParam="SELECT USER_UID FROM TS_USER WHERE USER_ID ='#ASSIGN#'" />
+			<param key="AUTH_DATE" funcId="COPY_COLUMN" funcParam="APPLY_DATE" />
+			<param key="AUTH_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="STATUS">
+				<defaultValue>3</defaultValue>
+			</param>
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+
+			<param key="PASSWORD" funcId="COPY_COLUMN" funcParam="SCHOOL_ID" />
+			<!--
+				以下欄位放 NULL, 故不設設定檔
+				AUTH_MEMO
+				LICENCE_CONT
+				WAIT_NOTICE_CONT
+				APP_UNIT_INFO_UID
+			-->
+
+		</params>
+	</excel>
+
+
+	<!-- ====================================================================== -->
+	<!-- 事業單位資料匯入 -->
+	<!-- ====================================================================== -->
+	<excel id="CORP" desc="事業單位資料匯入" sheetNum="1" startRow="3" checkEmptyRow="false">
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" />
+			<column desc="組合表代碼" key="OTHER" pass="true" />
+			<column desc="年度" key="YEAR" pass="true" />
+			<column desc="申請日期" key="APPLY_DATE" funcId="DATE_FORMAT" />
+			<column desc="事業單位名稱(中文)" key="CORP_CHN_NAME" />
+			<column desc="事業單位名稱(英文)" key="CORP_ENG_NAME" />
+			<column desc="事業單位郵遞區號" key="POST_ID" />
+			<column desc="事業單位所在縣市" key="CITY" pass="true" />
+			<column desc="事業單位所在鄉鎮" key="TOWN" pass="true" />
+			<column desc="事業單位地址(中文)" key="CHN_ADDRESS" />
+			<column desc="事業單位地址(英文)" key="ENG_ADDRESS" />
+			<column desc="公司統一編號" key="CORP_ID" />
+			<column desc="公司網址" key="OFFICAL_WEBSET" />
+			<column desc="公司產品與服務" key="PRODUCT_SERVICE" />
+			<column desc="營業項目" key="DEAL_IN_AREA" />
+			<column desc="是否為共同申請" key="IS_APPLY_TOGETHER" />
+			<column desc="資本額" key="CAPTIAL_AMT" />
+			<column desc="負責人" key="ON_DUTY_MAN" />
+			<column desc="員工投保人數" key="INSURE_EMPLOYEE" />
+			<column desc="最新投保日期" key="INSURE_DATE" funcId="DATE_FORMAT" />
+			<column desc="聯絡人" key="LM_NAME" />
+			<column desc="聯絡人職稱" key="LM_TITLE" />
+			<column desc="聯絡人電話" key="LM_PHONE" />
+			<column desc="聯絡人分機" key="LM_BRANCH_PHONE" />
+			<column desc="聯絡人手機" key="LM_MOBILE_PHONE" />
+			<column desc="聯絡人傳真" key="LM_FAX" />
+			<column desc="電子郵件" key="LM_EMAIL" />
+			<column desc="所屬部門" key="BELONG_UNIT" />
+			<column desc="訓練協調經理姓名" key="TL_NAME" />
+			<column desc="訓練協調經理聯絡電話" key="TL_PHONE" />
+			<column desc="訓練協調經理聯絡分機" key="TL_BRANCH_PHONE" />
+			<column desc="備註" key="MEMO" />
+			<column desc="事業單位簡介-中文" key="RESUME_CHN" />
+			<column desc="事業單位簡介-英文" key="RESUME_ENG" />
+			<column desc="指派人" key="ASSIGN" pass="true" />
+		</read>
+		<params>
+			<param desc="TD_CORP_BASE內部編號" key="CORP_BASE_UID" funcId="GEN_UID" funcParam="CB[DATE2-14][R][NUM5]" />
+			<param desc="CITY_UID" key="CITY_UID" funcId="SQL_SELECT" funcParam="SELECT CITY_UID FROM TB_CITY WHERE CITY_NAME ='#CITY#'" />
+			<param desc="TOWN_UID" key="TOWN_UID" funcId="SQL_SELECT" funcParam="SELECT TOWN_UID FROM TB_TOWN A LEFT JOIN TB_CITY B ON A.CITY_UID = B.CITY_UID WHERE CITY_NAME ='#CITY#' AND TOWN_NAME ='#TOWN#'" />
+
+			<param key="APPLY_UID"> <!-- TODO 需修改 -->
+				<defaultValue>00000000000000000000</defaultValue>
+			</param>
+
+			<param key="APPLY_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="ASSIGN_UID" funcId="SQL_SELECT" funcParam="SELECT USER_UID FROM TS_USER WHERE USER_ID ='#ASSIGN#'" />
+			<param key="ASSIGN_DATE" funcId="COPY_COLUMN" funcParam="APPLY_DATE" />
+			<param key="ASSIGN_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="AUTH_UID" funcId="SQL_SELECT" funcParam="SELECT USER_UID FROM TS_USER WHERE USER_ID ='#ASSIGN#'" />
+			<param key="AUTH_DATE" funcId="COPY_COLUMN" funcParam="APPLY_DATE" />
+			<param key="AUTH_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="STATUS">
+				<defaultValue>3</defaultValue>
+			</param>
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+
+			<param key="PASSWORD" funcId="COPY_COLUMN" funcParam="CORP_ID" />
+
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 聯絡人資料匯入 -->
+	<!-- ====================================================================== -->
+	<excel id="TD_YEAR_OTHER_LM" desc="聯絡人資料匯入" sheetNum="2" startRow="3" checkEmptyRow="false">
+		<!--
+			YEAR_OTHER_LM_UID
+			MAPPING_UID
+			NAME
+			TITLE
+			PHONE
+			BRANCH_PHONE
+			MEMO
+			ADD_UID
+			ADD_DATE
+			ADD_TIME
+			LUPD_UID
+			LUPD_DATE
+			LUPD_TIME
+			EMAIL
+			FAX
+			MOBILE
+		-->
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" pass="true" />
+			<column desc="學校統一編號" key="SCHOOL_ID" />  <!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="聯絡人身分證號" key="IDCARD_NUM" />
+			<column desc="聯絡人姓名" index="3" key="NAME" />
+			<column desc="聯絡人電話" index="5" key="PHONE" />
+			<column desc="分機" index="6" key="BRANCH_PHONE" />
+			<column desc="聯絡人職稱" index="4" key="TITLE" funcId="EMPTY_TO_FULL_SPACE" />
+			<column desc="備註" index="7" key="MEMO" />
+
+		</read>
+		<params>
+			<param index="1" key="YEAR_OTHER_LM_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="MAPPING_UID" /> <!-- 由程式帶入 -->
+			<param index="8" key="EMAIL" /> <!-- 由程式帶入 -->
+			<param index="9" key="MOBILE" /> <!-- 由程式帶入 -->
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 人員清單匯入 人員身分 3.待補訓人員 -->
+	<!-- ====================================================================== -->
+	<excel id="TD_YEAR_TL_SEED_ADD" desc="人員匯入" sheetNum="3" startRow="3" checkEmptyRow="false">
+		<!--
+			YEAR_TL_SEED_ADD_UID
+			MAPPING_UID
+			NAME
+			IDCARD_NUM
+			TITLE
+			PHONE
+			MOBILE_PHONE
+			EMAIL
+			STATION_UID
+			STATUS
+		-->
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" pass="true" />
+			<column desc="學校統一編號" key="SCHOOL_ID" /> <!-- 非 Insert 欄位，但於中介處理時有用到，故於後制時移除 -->
+			<column index="3" desc="姓名" key="NAME" />
+			<column index="4" desc="身份證字號" key="IDCARD_NUM" />
+			<column index="5" desc="科系職稱" key="TITLE" />
+			<column desc="聯絡電話" key="PHONE" />
+			<column desc="分機" key="BRANCH_PHONE" pass="true" />
+			<column index="7" desc="手機" key="MOBILE_PHONE" />
+			<column index="8" desc="EMAIL" key="EMAIL" />
+			<column desc="人員身分" key="STATION_TYPE" /> <!-- 非 Insert 欄位，但於中介處理時有用到，故於後制時移除 -->
+		</read>
+		<params>
+			<param index="1" key="YEAR_TL_SEED_ADD_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="MAPPING_UID" /> <!-- 由程式帶入 -->
+			<!-- <param index="6" key="PHONE" funcId="REPLACE_TO_PARAM" funcParam="#MAIN_PHONE# - #BRANCH_PHONE#" /> -->
+			<param key="STATUS" defaultValue="0" />
+			<param key="STATION_UID" />  <!-- 由程式帶入 -->
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 原有人員清單匯入 1.種子人員 2.訓練協調經理 -->
+	<!-- ====================================================================== -->
+	<!--
+		YEAR_TL_SEED_SELECT_UID
+		MAPPING_UID
+		ADD_UID
+		ADD_DATE
+		ADD_TIME
+		LUPD_UID
+		LUPD_DATE
+		LUPD_TIME
+	-->
+	<excel id="TD_YEAR_TL_SEED_SELECT" desc="原有人員清單匯入" sheetNum="3" startRow="3" checkEmptyRow="false">
+
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" /> <!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="學校統一編號" key="SCHOOL_ID" /> <!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="姓名" key="NAME" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="身份證字號" key="IDCARD_NUM" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="科系職稱" key="TITLE" pass="true" />
+			<column desc="聯絡電話" key="PHONE" pass="true" />
+			<column desc="分機" key="BRANCH_PHONE" pass="true" />
+			<column desc="手機" key="MOBILE_PHONE" pass="true" />
+			<column desc="EMAIL" key="EMAIL" pass="true" />
+			<column desc="人員身分" key="STATION_TYPE" />
+		</read>
+		<params>
+			<param index="1" key="YEAR_TL_SEED_SELECT_UID" funcId="SQL_SELECT" funcParam="SELECT SEED_UID FROM TD_SEED WHERE (IDCARD_NUM ='#IDCARD_NUM#' or CHN_NAME='#NAME#')" />
+			<param index="2" key="MAPPING_UID" /> <!-- 由程式帶入 -->
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+
+	<!-- ====================================================================== -->
+	<!-- 參與職類內容-學制 -->
+	<!-- ====================================================================== -->
+	<!--
+		SCHOOL_YEAR_ES_UID 1
+		SCHOOL_YEAR_UID 2
+		ES_UID 3
+		INSTITUE_UID
+		INSTITUE_WEB 4
+		MIN_APPLY_NUM 5
+		TUITION_FEE_1 6
+		TUITION_FEE_2 7
+		MISCELLANEOUS 8
+		OTHER_FEE_NAME
+		OTHER_FEE_AMT
+		EXPERIMENT_FEE
+		INSTITUE_MEMO 9
+		STUDENT_START
+		STUDENT_END
+	-->
+	<excel id="TD_SCHOOL_YEAR_ES" desc="參與職類內容-學制" sheetNum="4" startRow="3" checkEmptyRow="false" checkDuplicate="UNIT_INFO_UID,SCHOOL_ID,ST_TYPE,INSTITUE_NAME">
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="學校統一編號" key="SCHOOL_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" pass="true" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_NAME" /> <!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="科系網址" index="4" key="INSTITUE_WEB" />
+			<column desc="最底開班名額" index="5" key="MIN_APPLY_NUM" />
+			<column desc="學費" index="6" key="TUITION_FEE_1" />
+			<column desc="雜費" index="8" key="MISCELLANEOUS" />
+			<column desc="其他費用" index="9" key="OTHER_FEE_NAME" />
+			<column desc="其他費用金額" index="10" key="OTHER_FEE_AMT" />
+			<column desc="科系特色" index="11" key="INSTITUE_MEMO" />
+		</read>
+
+		<params>
+			<param index="1" key="SCHOOL_YEAR_ES_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="SCHOOL_YEAR_UID" funcId="SQL_SELECT"
+				funcParam="
+				SELECT SCHOOL_YEAR_UID
+				FROM   TD_SCHOOL_YEAR
+				WHERE  SCHOOL_ID = '#SCHOOL_ID#'
+					AND CLASS_TYPE_UID = '20120911003905200001'
+					AND UNIT_INFO_UID = '#UNIT_INFO_UID#'
+				" />
+
+			<param index="3" key="ES_UID" funcId="SQL_SELECT"
+				funcParam="
+				SELECT ES_UID
+				FROM   TB_ES_YEAR
+				WHERE  ES_BASE_UID = (SELECT ES_BASE_UID
+									FROM   TB_ES_BASE
+									WHERE  ES_NAME_CHN = ( Decode('#ES_TYPE#', '1', '高職',
+																				'2', '二專',
+																				'3', '二技',
+																				'5', '四年制') ))
+					AND CLASS_TYPE_UID = '20120911003905200001' " />
+
+			<param index="7" key="TUITION_FEE_2" funcId="COPY_COLUMN" funcParam="TUITION_FEE_1" />
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+
+	<!-- ====================================================================== -->
+	<!-- 參與職類內容-職類 -->
+	<!-- ====================================================================== -->
+	<excel id="TD_SCHOOL_YEAR_ST" desc="參與職類內容-職類" sheetNum="4" startRow="3" checkEmptyRow="false" checkDuplicate="UNIT_INFO_UID,SCHOOL_ID,ST_TYPE,INSTITUE_NAME">
+		<!--
+			SCHOOL_YEAR_ST_UID
+			SCHOOL_YEAR_ES_UID
+			SK_UID
+			ST_UID
+			INSTITUE_UID
+		-->
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="學校統一編號" key="SCHOOL_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" pass="true" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_NAME" /> <!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="科系網址" key="INSTITUE_WEB" pass="true" />
+			<column desc="最底開班名額" key="MIN_APPLY_NUM" pass="true" />
+			<column desc="學費" key="TUITION_FEE_1" pass="true" />
+			<column desc="雜費" key="MISCELLANEOUS" pass="true" />
+			<column desc="其他費用金額" key="OTHER_FEE_AMT" pass="true" />
+			<column desc="科系特色" key="INSTITUE_MEMO" pass="true" />
+		</read>
+
+		<params>
+			<param key="SCHOOL_YEAR_ST_UID" index="1" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param key="SCHOOL_YEAR_ES_UID" index="2" /><!-- 此欄位值由程式處理 -->
+
+			<!--
+				<param key="SCHOOL_YEAR_ES_UID" funcId="SQL_SELECT"
+				funcParam="SELECT SCHOOL_YEAR_ES_UID FROM TD_SCHOOL_YEAR_ES WHERE SCHOOL_YEAR_UID IN
+				(SELECT SCHOOL_YEAR_UID FROM TD_SCHOOL_YEAR WHERE SCHOOL_ID='#SCHOOL_ID#' AND CLASS_TYPE_UID ='20120911003905200001' AND UNIT_INFO_UID='#UNIT_INFO_UID#')
+				AND ES_UID =(SELECT ES_UID FROM TB_ES_YEAR WHERE ES_BASE_UID
+				=(SELECT ES_BASE_UID FROM TB_ES_BASE WHERE ES_NAME_CHN = (DECODE('#ES_TYPE#','1','高職','2','二專','3','二技','5','四年制'))) AND CLASS_TYPE_UID='20120911003905200001')
+				" />
+			-->
+
+			<param key="SK_UID" index="3" funcId="SQL_SELECT" funcParam="SELECT SK_UID FROM TB_SK WHERE SK_CHN_NAME = DECODE('#SK_TYPE#','1','管理類','2','工業類','3','服務類')" />
+			<param key="ST_UID" index="4" funcId="SQL_SELECT"
+				funcParam="
+				SELECT ST_UID
+				FROM   TB_ST_YEAR A
+					LEFT JOIN TB_ST_BASE B
+							ON A.ST_BASE_UID = B.ST_BASE_UID
+				WHERE  B.ST_ID = '#ST_TYPE#'
+					AND CLASS_TYPE_UID = '20120911003905200001'
+					AND ES_UID = (SELECT ES_UID
+									FROM   TB_ES_YEAR
+									WHERE  ES_BASE_UID = (SELECT ES_BASE_UID
+														FROM   TB_ES_BASE
+														WHERE  ES_NAME_CHN = ( Decode('#ES_TYPE#', '1', '高職',
+																									'2', '二專',
+																									'3', '二技',
+																									'5', '四年制') ))
+											AND CLASS_TYPE_UID = '20120911003905200001')
+
+				" />
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 參與職類內容-科系 -->
+	<!-- ====================================================================== -->
+	<excel id="TD_SCHOOL_YEAR_INSTITUE" desc="參與職類內容-科系" sheetNum="4" startRow="3" checkEmptyRow="false" checkDuplicate="UNIT_INFO_UID,SCHOOL_ID,ST_TYPE,INSTITUE_NAME">
+		<!--
+			SCHOOL_YEAR_ST_UID
+			INSTITUE_CHN_NAME
+		-->
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="學校統一編號" key="SCHOOL_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" pass="true" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_CHN_NAME" index="2" />
+			<column desc="科系網址" key="INSTITUE_WEB" pass="true" />
+			<column desc="最底開班名額" key="MIN_APPLY_NUM" pass="true" />
+			<column desc="學費" key="TUITION_FEE_1" pass="true" />
+			<column desc="雜費" key="STATION_TYPE" pass="true" />
+			<column desc="其他費用金額" key="MISCELLANEOUS" pass="true" />
+			<column desc="科系特色" key="INSTITUE_MEMO" pass="true" />
+		</read>
+
+		<params>
+			<!--
+				<param key="SCHOOL_YEAR_ST_UID" funcId="SQL_SELECT"
+				funcParam="SELECT SCHOOL_YEAR_ST_UID FROM TD_SCHOOL_YEAR_ST
+				WHERE SCHOOL_YEAR_ES_UID =
+				(SELECT SCHOOL_YEAR_ES_UID FROM TD_SCHOOL_YEAR_ES
+				WHERE SCHOOL_YEAR_UID = (SELECT SCHOOL_YEAR_UID FROM TD_SCHOOL_YEAR WHERE SCHOOL_ID='#SCHOOL_ID#' AND CLASS_TYPE_UID ='20120911003905200001' AND UNIT_INFO_UID='#UNIT_INFO_UID#')
+				AND ES_UID =(SELECT ES_UID FROM TB_ES_YEAR WHERE ES_BASE_UID
+				=(SELECT ES_BASE_UID FROM TB_ES_BASE WHERE ES_NAME_CHN = (DECODE('#ES_TYPE#','1','高職','2','二專','3','二技','5','四年制'))) AND CLASS_TYPE_UID='20120911003905200001')
+				)
+				" />
+			-->
+			<param index="1" key="SCHOOL_YEAR_ST_UID" /><!-- 此欄位值由程式處理 -->
+			<param key="INSTITUE_NAME" funcId="COPY_COLUMN" funcParam="INSTITUE_CHN_NAME" /> <!-- 不設 pass, 於程式端移除該欄位 -->
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+
+	<!-- ====================================================================== -->
+	<!-- 專班導師清單 -->
+	<!-- ====================================================================== -->
+	<!--
+		SCHOOL_YEAR_TEACHER_UID
+		SCHOOL_YEAR_ES_UID
+		SCHOOL_YEAR_ST_UID
+		NAME
+		TITLE
+		PHONE
+		EMAIL
+	-->
+	<excel id="TD_SCHOOL_YEAR_TEACHER" desc="專班導師清單" sheetNum="5" startRow="3" checkEmptyRow="false">
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="學校統一編號" key="SCHOOL_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_NAME" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="導師姓名" index="4" key="NAME" />
+			<column desc="科系職稱" index="5" key="TITLE" />
+			<column desc="聯絡電話" key="MAIN_PHONE" pass="true" />
+			<column desc="分機" key="BRANCH_PHONE" pass="true" />
+			<column desc="EMAIL" index="7" key="EMAIL" />
+		</read>
+
+		<params>
+			<param index="1" key="SCHOOL_YEAR_TEACHER_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="SCHOOL_YEAR_ES_UID" /><!-- 此欄位值由程式處理 -->
+			<param index="3" key="SCHOOL_YEAR_ST_UID" /><!-- 此欄位值由程式處理 -->
+			<param index="6" key="PHONE" funcId="REPLACE_TO_PARAM" funcParam="#MAIN_PHONE# - #BRANCH_PHONE#" />
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 計畫申請學校年度合作事業單位檔 -->
+	<!-- ====================================================================== -->
+	<!--
+		SCHOOL_YEAR_CORP_UID
+		SCHOOL_YEAR_ST_UID
+		CORP_BASE_UID
+		PLACE
+		MATCH_FLAG
+		UNIT_INFO_UID
+		OPLACE
+		RPLACE
+		STATUS
+		VPLACE
+		VSTATUS
+	-->
+	<excel id="TD_SCHOOL_YEAR_CORP" desc="計畫申請學校年度合作事業單位檔" sheetNum="6" startRow="3" checkEmptyRow="false">
+		<read>
+			<column index="5" desc="申請中心代碼" key="UNIT_INFO_UID" />
+			<column desc="學校統一編號" key="SCHOOL_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" pass="true" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="TITLE" pass="true" />
+			<column desc="合作事業申請中心" key="CORP_UNIT_INFO_UID" pass="true" />
+			<column desc="合作事業單位名稱" key="CORP_CHN_NAME" pass="true" />
+			<column desc="合作事業統一編號" key="CORP_ID" pass="true" />
+			<column index="6" desc="申請名額" key="OPLACE" />
+			<column index="9" desc="初審名額" key="VPLACE" />
+			<column index="10" desc="初審結果" key="VSTATUS" />
+			<column index="7" desc="複審名額" key="RPLACE" />
+			<column index="8" desc="複審結果" key="STATUS" />
+			<column index="4" desc="決審名額" key="PLACE" />
+		</read>
+
+		<params>
+			<param index="1" key="SCHOOL_YEAR_CORP_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="SCHOOL_YEAR_ST_UID" /><!-- 此欄位值由程式處理 -->
+			<param index="3" key="CORP_BASE_UID" funcId="SQL_SELECT" funcParam="SELECT CORP_BASE_UID FROM TD_CORP_BASE WHERE CORP_ID ='#CORP_ID#'" />
+			<param index="4" key="MATCH_FLAG" defaultValue="0" />
+			<param key="INSTITUE_NAME" funcId="COPY_COLUMN" funcParam="TITLE" /> <!-- 不設 pass, 於程式端移除該欄位 -->
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 計畫申請事業單位年度職類檔 -->
+	<!-- ====================================================================== -->
+
+	<excel id="TD_CORP_YEAR_ST" desc="計畫申請事業單位年度職類檔" sheetNum="4" startRow="3" checkEmptyRow="false">
+
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" />
+			<column desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_CHN_NAME" />
+			<column desc="合作學校申請中心" key="SCHOOL_UNIT_INFO_UID" pass="true" />
+			<column desc="合作學校單位名稱" key="SCHOOL_CHN_NAME" pass="true" />
+			<column desc="合作學校統一編號" key="SCHOOL_ID" pass="true" />
+			<column desc="訓練地點" key="TRAIN_PLACE" pass="true" />
+			<column desc="初期津貼" key="INITIAL_ALLOWANCE" pass="true" />
+			<column desc="津貼類型" key="INITIAL_ALLOWANCE_TYPE" pass="true" />
+			<column desc="每週訓練天數" key="TRAIN_DAY_WEEK" pass="true" />
+			<column desc="每日訓練時數" key="TRAIN_HOUR_DAY" pass="true" />
+			<column desc="每日訓練時間(起)" key="TRAIN_DAY_START" pass="true" />
+			<column desc="每日訓練時間(迄)" key="TRAIN_DAY_END" pass="true" />
+			<column desc="輪班方式" key="RATATION_TYPE" pass="true" />
+			<column desc="預定留用人數" key="RESERVED_NUM" pass="true" />
+			<column desc="業務範圍" key="DEAL_IN_AREA" pass="true" />
+			<column desc="薪資約" key="SALARY" pass="true" />
+			<column desc="備註" key="MEMO" pass="true" />
+			<column desc="申請名額" key="OPLACE" pass="true" />
+			<column desc="初審名額" key="VPLACE" pass="true" />
+			<column desc="初審結果" key="VSTATUS" pass="true" />
+			<column desc="複審名額" key="RPLACE" pass="true" />
+			<column desc="複審結果" key="STATUS" pass="true" />
+			<column desc="決審名額" key="PLACE" />
+		</read>
+		<params>
+			<param index="1" key="CORP_YEAR_ST_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="CORP_YEAR_UID" funcId="SQL_SELECT" funcParam="()">
+				<funcParam>
+					SELECT CORP_YEAR_UID
+					FROM TD_CORP_YEAR
+					WHERE CORP_ID = '#CORP_ID#'
+					AND CLASS_TYPE_UID = '20120911003905200001'
+					AND UNIT_INFO_UID = '#UNIT_INFO_UID#'
+				</funcParam>
+			</param>
+			<param key="ES_UID" funcId="SQL_SELECT">
+				<funcParam>
+					SELECT ES_UID
+					FROM TB_ES_YEAR
+					WHERE ES_BASE_UID = (SELECT ES_BASE_UID
+					FROM TB_ES_BASE
+					WHERE ES_NAME_CHN = Decode('#ES_TYPE#', '1', '高職',
+					'2', '二專',
+					'3', '二技',
+					'5', '四年制')) AND CLASS_TYPE_UID
+					='20120911003905200001'
+				</funcParam>
+			</param>
+			<param key="SK_UID" funcId="SQL_SELECT">
+				<funcParam>
+					SELECT SK_UID
+					FROM TB_SK
+					WHERE SK_CHN_NAME = Decode('#SK_TYPE#', '1', '管理類', '2', '工業類', '3', '服務類')
+				</funcParam>
+			</param>
+			<param key="ST_UID" funcId="SQL_SELECT">
+				<funcParam>
+					SELECT ST_UID
+					FROM TB_ST_YEAR A
+					LEFT JOIN TB_ST_BASE B
+					ON A.ST_BASE_UID = B.ST_BASE_UID
+					WHERE B.ST_ID = '#ST_TYPE#'
+					AND CLASS_TYPE_UID = '20120911003905200001'
+					AND ES_UID IN (SELECT ES_UID
+					FROM TB_ES_YEAR
+					WHERE ES_BASE_UID = (SELECT ES_BASE_UID
+					FROM TB_ES_BASE
+					WHERE ES_NAME_CHN = Decode(#ES_TYPE#, '1', '高職', '2', '二專', '3', '二技','5', '四年制'))
+					AND CLASS_TYPE_UID = '20120911003905200001')
+				</funcParam>
+			</param>
+
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+
+	<!-- ====================================================================== -->
+	<!-- 計畫申請事業單位年度合作學校檔 -->
+	<!-- ====================================================================== -->
+
+	<excel id="TD_CORP_YEAR_SCHOOL" desc="計畫申請事業單位年度合作學校檔" sheetNum="4" startRow="3" checkEmptyRow="false">
+
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" />
+			<column desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_CHN_NAME" />
+			<column desc="合作學校申請中心" key="SCHOOL_UNIT_INFO_UID" pass="true" />
+			<column desc="合作學校單位名稱" key="SCHOOL_CHN_NAME" pass="true" />
+			<column desc="合作學校統一編號" key="SCHOOL_ID" pass="true" />
+			<column desc="訓練地點" key="TRAIN_PLACE" />
+			<column desc="初期津貼" key="INITIAL_ALLOWANCE" />
+			<column desc="津貼類型" key="INITIAL_ALLOWANCE_TYPE" />
+			<column desc="每週訓練天數" key="TRAIN_DAY_WEEK" />
+			<column desc="每日訓練時數" key="TRAIN_HOUR_DAY" />
+			<column desc="每日訓練時間(起)" key="TRAIN_DAY_START" />
+			<column desc="每日訓練時間(迄)" key="TRAIN_DAY_END" />
+			<column desc="輪班方式" key="RATATION_TYPE" />
+			<column desc="預定留用人數" key="RESERVED_NUM" />
+			<column desc="業務範圍" key="DEAL_IN_AREA" />
+			<column desc="薪資約" key="SALARY" />
+			<column desc="備註" key="MEMO" />
+			<column desc="申請名額" key="OPLACE" pass="true" />
+			<column desc="初審名額" key="VPLACE" pass="true" />
+			<column desc="初審結果" key="VSTATUS" pass="true" />
+			<column desc="複審名額" key="RPLACE" pass="true" />
+			<column desc="複審結果" key="STATUS" pass="true" />
+			<column desc="決審名額" key="PLACE" pass="true" />
+		</read>
+
+		<params>
+			<param index="1" key="CORP_YEAR_SCHOOL_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="CORP_YEAR_ST_UID" /><!-- 此欄位值由程式處理 -->
+			<param index="3" key="SCHOOL_BASE_UID" funcId="SQL_SELECT">
+				<funcParam>
+					SELECT SCHOOL_BASE_UID
+					FROM TD_SCHOOL_BASE
+					WHERE SCHOOL_ID = '#SCHOOL_ID#'
+				</funcParam>
+			</param>
+
+			<param key="COOPERATE_NUM" funcId="COPY_COLUMN" funcParam="PLACE" />
+			<param key="INITIAL_STUDY_PALCE" funcId="COPY_COLUMN" funcParam="TRAIN_PLACE" />
+			<param key="MATCH_FLAG" defaultValue="0" />
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 計事業單位年度合作科系檔 -->
+	<!-- ====================================================================== -->
+
+	<excel id="TD_CORP_YEAR_INSTITUE" desc="事業單位年度合作科系檔" sheetNum="4" startRow="3" checkEmptyRow="false">
+
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" />
+			<column desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_CHN_NAME" />
+			<column desc="合作學校申請中心" key="SCHOOL_UNIT_INFO_UID" pass="true" />
+			<column desc="合作學校單位名稱" key="SCHOOL_CHN_NAME" pass="true" />
+			<column desc="合作學校統一編號" key="SCHOOL_ID" pass="true" />
+			<column desc="訓練地點" key="TRAIN_PLACE" pass="true" />
+			<column desc="初期津貼" key="INITIAL_ALLOWANCE" pass="true" />
+			<column desc="津貼類型" key="INITIAL_ALLOWANCE_TYPE" pass="true" />
+			<column desc="每週訓練天數" key="TRAIN_DAY_WEEK" pass="true" />
+			<column desc="每日訓練時數" key="TRAIN_HOUR_DAY" pass="true" />
+			<column desc="每日訓練時間(起)" key="TRAIN_DAY_START" pass="true" />
+			<column desc="每日訓練時間(迄)" key="TRAIN_DAY_END" pass="true" />
+			<column desc="輪班方式" key="RATATION_TYPE" pass="true" />
+			<column desc="預定留用人數" key="RESERVED_NUM" pass="true" />
+			<column desc="業務範圍" key="DEAL_IN_AREA" pass="true" />
+			<column desc="薪資約" key="SALARY" pass="true" />
+			<column desc="備註" key="MEMO" pass="true" />
+			<column desc="申請名額" key="OPLACE" pass="true" />
+			<column desc="初審名額" key="VPLACE" pass="true" />
+			<column desc="初審結果" key="VSTATUS" pass="true" />
+			<column desc="複審名額" key="RPLACE" pass="true" />
+			<column desc="複審結果" key="STATUS" pass="true" />
+			<column desc="決審名額" key="PLACE" />
+		</read>
+
+		<params>
+			<param index="1" key="CORP_YEAR_INSTITUE_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="CORP_YEAR_SCHOOL_UID" /><!-- 此欄位值由程式處理 -->
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- 計事業單位年度合作科系檔 -->
+	<!-- ====================================================================== -->
+
+	<excel id="TD_CYS_INSTITUE" desc="事業單位年度合作科系檔" sheetNum="4" startRow="3" checkEmptyRow="false">
+		<read>
+			<column desc="申請中心代碼" key="UNIT_INFO_UID" />
+			<column desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請學制代碼" key="ES_TYPE" />
+			<column desc="申請職種代碼" key="SK_TYPE" pass="true" />
+			<column desc="申請職類代碼" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column desc="申請科(系)名稱" key="INSTITUE_CHN_NAME" />
+			<column desc="合作學校申請中心" key="SCHOOL_UNIT_INFO_UID" pass="true" />
+			<column desc="合作學校單位名稱" key="SCHOOL_CHN_NAME" pass="true" />
+			<column desc="合作學校統一編號" key="SCHOOL_ID" pass="true" />
+			<column desc="訓練地點" key="TRAIN_PLACE" pass="true" />
+			<column desc="初期津貼" key="INITIAL_ALLOWANCE" pass="true" />
+			<column desc="津貼類型" key="INITIAL_ALLOWANCE_TYPE" pass="true" />
+			<column desc="每週訓練天數" key="TRAIN_DAY_WEEK" pass="true" />
+			<column desc="每日訓練時數" key="TRAIN_HOUR_DAY" pass="true" />
+			<column desc="每日訓練時間(起)" key="TRAIN_DAY_START" pass="true" />
+			<column desc="每日訓練時間(迄)" key="TRAIN_DAY_END" pass="true" />
+			<column desc="輪班方式" key="RATATION_TYPE" pass="true" />
+			<column desc="預定留用人數" key="RESERVED_NUM" pass="true" />
+			<column desc="業務範圍" key="DEAL_IN_AREA" pass="true" />
+			<column desc="薪資約" key="SALARY" pass="true" />
+			<column desc="備註" key="MEMO" pass="true" />
+			<column desc="申請名額" key="OPLACE" />
+			<column desc="初審名額" key="VPLACE" />
+			<column desc="初審結果" key="VSTATUS" />
+			<column desc="複審名額" key="RPLACE" />
+			<column desc="複審結果" key="STATUS" />
+			<column desc="決審名額" key="PLACE" />
+		</read>
+
+		<params>
+			<param index="1" key="CYS_INSTITUE_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" key="CORP_YEAR_SCHOOL_UID" /><!-- 此欄位值由程式處理 -->
+			<param index="3" key="INSTITUE_UID" funcId="SQL_SELECT">
+				<funcParam>
+					SELECT INSTITUE_UID
+					FROM V_INSTITUE
+					WHERE CLASS_TYPE_UID = '20120911003905200001'
+					AND SCHOOL_ID = '#SCHOOL_ID#'
+					AND ST_ID = '#ST_TYPE#'
+					AND INSTITUE_CHN_NAME = '#INSTITUE_CHN_NAME#'
+				</funcParam>
+			</param>
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+
+	<!-- ====================================================================== -->
+	<!-- TD_CORP_YEAR_WALFARE 計畫申請事業單位年度福利檔 -->
+	<!-- ====================================================================== -->
+	<excel id="TD_CORP_YEAR_WALFARE" desc="計畫申請事業單位年度福利檔" sheetNum="5" startRow="3" checkEmptyRow="false">
+		<read>
+			<!--
+				TD_CORP_YEAR_WALFARE 計畫申請事業單位年度福利代碼
+				TD_CORP_YEAR_UID 計畫申請事業單位年度代碼
+				HOSTEL_FLAG 宿舍標誌
+				HOSTEL_CHOICE 宿舍選擇
+				HOSTEL_FEE 每月宿舍費用
+				HOSTEL_MEMO 宿舍備註
+				FOOD_FLAG 提供伙食標誌
+				FOOD_FREE_FLAG 免費伙食標誌
+				FOOD_FEE 每月伙食費用
+				FOOD_MEMO 伙食備註
+				TRAFFIC_FLAG 提供交通車標誌
+				TRAFFIC_FREE_FLAG 免費交通車標誌
+				TRAFFIC_FEE 交通車費用
+				TRAFFIC_MEMO 交通車備註
+				KPI_AWARD_FLAG 績效獎標誌
+				YEAR_AWARD_FLAG 年終獎標誌
+				SCHOOL_ASSIT_FLAG 學校輔助標誌
+				OTHER_ASSIST 其他補助福利
+				MILITARY_COND_FLAG 兵役限制
+				SPECIAL_COND 特殊條件
+			-->
+			<column index="99" desc="申請中心(代碼)" key="UNIT_INFO_UID" pass="true" />
+			<column index="99" desc="公司統一編號" key="CORP_ID" pass="true" />
+			<column index="3" desc="是否提供宿舍(代碼)" key="HOSTEL_FLAG" />
+			<column index="4" desc="宿舍選擇(有提供宿舍必填)" key="HOSTEL_CHOICE" />
+			<column index="5" desc="每月宿舍費用(有提供宿舍且需付費必填)" key="HOSTEL_FEE" />
+			<column index="6" desc="宿舍備註" key="HOSTEL_MEMO" />
+			<column index="7" desc="是否提供伙食(代碼)" key="FOOD_FLAG" />
+			<column index="8" desc="免費提供伙食(代碼)(有提供伙食必填)" key="FOOD_FREE_FLAG" />
+			<column index="9" desc="每月伙食費用(有提供伙食且需付費必填)" key="FOOD_FEE" />
+			<column index="10" desc="伙食備註" key="FOOD_MEMO" />
+			<column index="11" desc="是否提供交通車(代碼)" key="TRAFFIC_FLAG" />
+			<column index="12" desc="免費提供交通車(代碼)(有提供交通車必填)" key="TRAFFIC_FREE_FLAG" />
+			<column index="13" desc="每月交通車費用(有提供交通車且需付費必填)" key="TRAFFIC_FEE" />
+			<column index="14" desc="交通車備註" key="TRAFFIC_MEMO" />
+			<column index="15" desc="是否績效獎金(代碼)" key="KPI_AWARD_FLAG" />
+			<column index="16" desc="是否年終獎金(代碼)" key="YEAR_AWARD_FLAG" />
+			<column index="17" desc="是否學費補助(代碼)" key="SCHOOL_ASSIT_FLAG" />
+			<column index="99" desc="其他費用補助/福利" key="OTHER_ASSIST" />
+			<column index="18" desc="獎金或補助其他說明" key="OTHER_ASSIST_DESC" /> <!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="19" desc="兵役限制(代碼)" key="MILITARY_COND_FLAG" />
+			<column index="20" desc="訓練職位之特殊規定" key="SPECIAL_COND" />
+		</read>
+
+		<params>
+			<param index="1" desc="計畫申請事業單位年度福利代碼" key="TD_CORP_YEAR_WALFARE" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" desc="計畫申請事業單位年度代碼" key="TD_CORP_YEAR_UID" funcId="SQL_SELECT">
+				<funcParam>
+					SELECT CORP_YEAR_UID
+					FROM TD_CORP_YEAR
+					WHERE CORP_ID = '#CORP_ID#'
+					AND CLASS_TYPE_UID = '20120911003905200001'
+					AND UNIT_INFO_UID = '#UNIT_INFO_UID#'
+				</funcParam>
+			</param>
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- TD_CORP_YEAR_WORKPLAN 計畫申請事業單位年度工作崗位檔 -->
+	<!-- ====================================================================== -->
+	<excel id="TD_CORP_YEAR_WORKPLAN" desc="計畫申請事業單位年度工作崗位檔" sheetNum="6" startRow="3" checkEmptyRow="false">
+		<read>
+			<!--
+				CORP_YEAR_WORKPLAN_UID 計畫申請事業單位年度工作崗代碼
+				CORP_YEAR_UID 計畫申請事業單位年度代碼
+				WORKPLAN_NAME 工作崗位名稱
+				MEMO 備註
+			-->
+			<column index="99" desc="申請中心(代碼)" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="申請職類(代碼)" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="3" desc="工作崗位名稱" key="WORKPLAN_NAME" />
+			<column index="4" desc="備註" key="MEMO" />
+		</read>
+
+		<params>
+			<param index="1" desc="計畫申請事業單位年度工作崗代碼" key="CORP_YEAR_WORKPLAN_UID" funcId="GEN_UID" funcParam="[DATE0-18][NUM2]" />
+			<param index="2" desc="計畫申請事業單位年度代碼" key="CORP_YEAR_UID" funcId="SQL_SELECT">
+				<funcParam>
+					SELECT CORP_YEAR_UID
+					FROM TD_CORP_YEAR
+					WHERE CORP_ID = '#CORP_ID#'
+					AND CLASS_TYPE_UID = '20120911003905200001'
+					AND UNIT_INFO_UID = '#UNIT_INFO_UID#'
+				</funcParam>
+			</param>
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- TD_STUDY_PLAN_TEMPLATE 訓練生輪調計畫範本設定檔 (高職) -->
+	<!-- ====================================================================== -->
+	<excel id="TD_STUDY_PLAN_TEMPLATE_1" desc="訓練生輪調計畫範本設定檔_（高職）" sheetNum="7" startRow="3" checkEmptyRow="false">
+		<read>
+			<!--
+				TEMPLATE_UID 輪調計畫範本代碼
+				CORP_YEAR_ST_UID 計畫申請事業單位年度職類代碼
+				TEMPLATE_GROUP_UID 模版類型代碼
+				TEMPLATE_TYPE 模版類型
+				TRAIN_YEAR 訓練年度
+				TRAIN_MONTH 訓練月份
+				CORP_YEAR_BRANCH_UID 訓練分公司代碼
+				CORP_YEAR_DEP_UID 訓練部門代碼
+				CORP_YEAR_WP_UID 訓練地點代碼
+				CORP_YEAR_SKILL_UID 訓練技能代碼
+				CORP_YEAR_WORKPLAN_UID 計畫申請事業單位年度工作崗位代碼
+			-->
+			<column index="99" desc="申請中心(代碼)" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="入學年度" key="YEAR" pass="true" />
+			<column index="99" desc="申請學制" key="ES_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="申請職種" key="SK_TYPE" pass="true" />
+			<column index="99" desc="申請職類" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="5" desc="訓練年度" key="TRAIN_YEAR" funcId="CONVERT_AD_YEAR" />
+			<column index="6" desc="訓練月份" key="TRAIN_MONTH" />
+			<column index="99" desc="工作崗位" key="WORKPLAN_NAME" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="備註" key="MENO" pass="true" />
+			<column index="4" desc="版本" key="TEMPLATE_TYPE" defaultValue="A" />
+		</read>
+
+		<params>
+			<param index="1" desc="輪調計畫範本代碼" key="TEMPLATE_UID" /> <!-- 此欄位值由程式處理 (因為會整筆複製) -->
+
+			<param index="2" desc="計畫申請事業單位年度職類代碼" key="CORP_YEAR_ST_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="3" desc="模版類型代碼" key="TEMPLATE_GROUP_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="7" desc="計畫申請事業單位年度工作崗位代碼" key="CORP_YEAR_WORKPLAN_UID" /> <!-- 此欄位值由程式處理 -->
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- TD_STUDY_PLAN_TEMPLATE 訓練生輪調計畫範本設定檔 (二專) -->
+	<!-- ====================================================================== -->
+	<excel id="TD_STUDY_PLAN_TEMPLATE_2" desc="訓練生輪調計畫範本設定檔_（二專）" sheetNum="8" startRow="3" checkEmptyRow="false">
+		<read>
+			<!--
+				TEMPLATE_UID 輪調計畫範本代碼
+				CORP_YEAR_ST_UID 計畫申請事業單位年度職類代碼
+				TEMPLATE_GROUP_UID 模版類型代碼
+				TEMPLATE_TYPE 模版類型
+				TRAIN_YEAR 訓練年度
+				TRAIN_MONTH 訓練月份
+				CORP_YEAR_BRANCH_UID 訓練分公司代碼
+				CORP_YEAR_DEP_UID 訓練部門代碼
+				CORP_YEAR_WP_UID 訓練地點代碼
+				CORP_YEAR_SKILL_UID 訓練技能代碼
+				CORP_YEAR_WORKPLAN_UID 計畫申請事業單位年度工作崗位代碼
+			-->
+			<column index="99" desc="申請中心(代碼)" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="入學年度" key="YEAR" pass="true" />
+			<column index="99" desc="申請學制" key="ES_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="申請職種" key="SK_TYPE" pass="true" />
+			<column index="99" desc="申請職類" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="5" desc="訓練年度" key="TRAIN_YEAR" funcId="CONVERT_AD_YEAR" />
+			<column index="6" desc="訓練月份" key="TRAIN_MONTH" />
+			<column index="99" desc="工作崗位" key="WORKPLAN_NAME" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="備註" key="MENO" pass="true" />
+			<column index="4" desc="版本" key="TEMPLATE_TYPE" defaultValue="A" />
+		</read>
+
+		<params>
+			<param index="1" desc="輪調計畫範本代碼" key="TEMPLATE_UID" /> <!-- 此欄位值由程式處理 (因為會整筆複製) -->
+			<param index="2" desc="計畫申請事業單位年度職類代碼" key="CORP_YEAR_ST_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="3" desc="模版類型代碼" key="TEMPLATE_GROUP_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="7" desc="計畫申請事業單位年度工作崗位代碼" key="CORP_YEAR_WORKPLAN_UID" /> <!-- 此欄位值由程式處理 -->
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- TD_STUDY_PLAN_TEMPLATE 訓練生輪調計畫範本設定檔 (二技) -->
+	<!-- ====================================================================== -->
+	<excel id="TD_STUDY_PLAN_TEMPLATE_3" desc="訓練生輪調計畫範本設定檔_（二技）" sheetNum="9" startRow="3" checkEmptyRow="false">
+		<read>
+			<!--
+				TEMPLATE_UID 輪調計畫範本代碼
+				CORP_YEAR_ST_UID 計畫申請事業單位年度職類代碼
+				TEMPLATE_GROUP_UID 模版類型代碼
+				TEMPLATE_TYPE 模版類型
+				TRAIN_YEAR 訓練年度
+				TRAIN_MONTH 訓練月份
+				CORP_YEAR_BRANCH_UID 訓練分公司代碼
+				CORP_YEAR_DEP_UID 訓練部門代碼
+				CORP_YEAR_WP_UID 訓練地點代碼
+				CORP_YEAR_SKILL_UID 訓練技能代碼
+				CORP_YEAR_WORKPLAN_UID 計畫申請事業單位年度工作崗位代碼
+			-->
+			<column index="99" desc="申請中心(代碼)" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="入學年度" key="YEAR" pass="true" />
+			<column index="99" desc="申請學制" key="ES_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="申請職種" key="SK_TYPE" pass="true" />
+			<column index="99" desc="申請職類" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="5" desc="訓練年度" key="TRAIN_YEAR" funcId="CONVERT_AD_YEAR" />
+			<column index="6" desc="訓練月份" key="TRAIN_MONTH" />
+			<column index="99" desc="工作崗位" key="WORKPLAN_NAME" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="備註" key="MENO" pass="true" />
+			<column index="4" desc="版本" key="TEMPLATE_TYPE" defaultValue="A" />
+		</read>
+
+		<params>
+			<param index="1" desc="輪調計畫範本代碼" key="TEMPLATE_UID" /> <!-- 此欄位值由程式處理 (因為會整筆複製) -->
+			<param index="2" desc="計畫申請事業單位年度職類代碼" key="CORP_YEAR_ST_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="3" desc="模版類型代碼" key="TEMPLATE_GROUP_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="7" desc="計畫申請事業單位年度工作崗位代碼" key="CORP_YEAR_WORKPLAN_UID" /> <!-- 此欄位值由程式處理 -->
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+
+	<!-- ====================================================================== -->
+	<!-- TD_STUDY_PLAN_TEMPLATE 訓練生輪調計畫範本設定檔 (四年制) -->
+	<!-- ====================================================================== -->
+	<excel id="TD_STUDY_PLAN_TEMPLATE_5" desc="訓練生輪調計畫範本設定檔_（四年制）" sheetNum="10" startRow="3" checkEmptyRow="false">
+		<read>
+			<!--
+				TEMPLATE_UID 輪調計畫範本代碼
+				CORP_YEAR_ST_UID 計畫申請事業單位年度職類代碼
+				TEMPLATE_GROUP_UID 模版類型代碼
+				TEMPLATE_TYPE 模版類型
+				TRAIN_YEAR 訓練年度
+				TRAIN_MONTH 訓練月份
+				CORP_YEAR_BRANCH_UID 訓練分公司代碼
+				CORP_YEAR_DEP_UID 訓練部門代碼
+				CORP_YEAR_WP_UID 訓練地點代碼
+				CORP_YEAR_SKILL_UID 訓練技能代碼
+				CORP_YEAR_WORKPLAN_UID 計畫申請事業單位年度工作崗位代碼
+			-->
+			<column index="99" desc="申請中心(代碼)" key="UNIT_INFO_UID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="公司統一編號" key="CORP_ID" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="入學年度" key="YEAR" pass="true" />
+			<column index="99" desc="申請學制" key="ES_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="申請職種" key="SK_TYPE" pass="true" />
+			<column index="99" desc="申請職類" key="ST_TYPE" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="5" desc="訓練年度" key="TRAIN_YEAR" funcId="CONVERT_AD_YEAR" />
+			<column index="6" desc="訓練月份" key="TRAIN_MONTH" />
+			<column index="99" desc="工作崗位" key="WORKPLAN_NAME" /><!-- 不設 pass, 於程式端移除該欄位 -->
+			<column index="99" desc="備註" key="MENO" pass="true" />
+			<column index="4" desc="版本" key="TEMPLATE_TYPE" defaultValue="A" />
+		</read>
+
+		<params>
+			<param index="1" desc="輪調計畫範本代碼" key="TEMPLATE_UID" /> <!-- 此欄位值由程式處理 (因為會整筆複製) -->
+			<param index="2" desc="計畫申請事業單位年度職類代碼" key="CORP_YEAR_ST_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="3" desc="模版類型代碼" key="TEMPLATE_GROUP_UID" /> <!-- 此欄位值由程式處理 -->
+			<param index="7" desc="計畫申請事業單位年度工作崗位代碼" key="CORP_YEAR_WORKPLAN_UID" /> <!-- 此欄位值由程式處理 -->
+
+			<param key="ADD_UID" defaultValue="00000000000000000000" />
+			<param key="ADD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="ADD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+			<param key="LUPD_UID" defaultValue="00000000000000000000" />
+			<param key="LUPD_DATE" funcId="CURR_DATE_TIME" funcParam="yyyy-MM-dd" />
+			<param key="LUPD_TIME" funcId="CURR_DATE_TIME" funcParam="HH:mm:ss" />
+		</params>
+	</excel>
+</config>

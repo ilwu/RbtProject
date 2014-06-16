@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================== -->
+<!-- ELEMENT : config-->
+<!-- ====================================== -->
+<!ELEMENT config (function*|format|excel+)*>
+
+<!-- ====================================== -->
+<!-- ELEMENT : function -->
+<!-- ====================================== -->
+<!ELEMENT function EMPTY>
+<!ATTLIST function
+	funcId ID #REQUIRED
+	className CDATA #REQUIRED
+	method CDATA #REQUIRED
+>
+
+<!-- ====================================== -->
+<!-- ELEMENT : format -->
+<!-- ====================================== -->
+<!ELEMENT format EMPTY>
+<!ATTLIST format
+	formatId ID #REQUIRED
+	regex CDATA #REQUIRED
+>
+
+<!-- ====================================== -->
+<!-- ELEMENT : excel-->
+<!-- ====================================== -->
+<!ELEMENT excel (read|params?)*>
+<!ATTLIST excel
+	id CDATA #REQUIRED
+	sheetNum CDATA #REQUIRED
+	startRow CDATA #REQUIRED
+	checkEmptyRow (true|false) #IMPLIED
+	checkDuplicate CDATA #IMPLIED
+	desc CDATA #IMPLIED
+>
+
+<!-- ====================================== -->
+<!-- ELEMENT : read -->
+<!-- ====================================== -->
+<!ELEMENT read (column+)>
+
+<!-- ====================================== -->
+<!-- ELEMENT : column -->
+<!-- ====================================== -->
+<!ELEMENT column (defaultValue?|funcParam?)>
+<!ATTLIST column
+	key CDATA #REQUIRED
+	defaultValue CDATA #IMPLIED
+	desc CDATA #IMPLIED
+	funcId CDATA #IMPLIED
+	funcParam CDATA #IMPLIED
+	formatId CDATA #IMPLIED
+	regex CDATA #IMPLIED
+	checkNull CDATA #IMPLIED
+	pass (true|false) #IMPLIED
+	index CDATA #IMPLIED
+>
+
+<!-- ====================================== -->
+<!-- ELEMENT : params -->
+<!-- ====================================== -->
+<!ELEMENT params (param+)>
+
+<!-- ====================================== -->
+<!-- ELEMENT : param -->
+<!-- ====================================== -->
+<!ELEMENT param (defaultValue?|funcParam?)>
+<!ATTLIST param
+	key CDATA #REQUIRED
+	defaultValue CDATA #IMPLIED
+	funcId CDATA #IMPLIED
+	funcParam CDATA #IMPLIED
+	desc CDATA #IMPLIED
+	index CDATA #IMPLIED
+>
+
+<!-- ====================================== -->
+<!-- ELEMENT : defaultValue 參數值 -->
+<!-- ====================================== -->
+<!ELEMENT defaultValue (#PCDATA)>
+
+<!-- ====================================== -->
+<!-- ELEMENT : funcParam 參數值 -->
+<!-- ====================================== -->
+<!ELEMENT funcParam (#PCDATA)>
+
+
+<!--
+
+( ) 一個表示式
+A A 必須出現一次(出現1次)
+A? A 可出現一次或不出現(出現0 or 1次)
+A+ A 可重複出現且至少出現一次(出現1次以上)
+A* A 可重複出現或不出現(出現0次以上)
+(A | B | C) A, B, C 任選一出現，且僅能有一出現
+(A, B, C) A, B, C 同時出現，且出現順序為A, B, C
+(A | B | C)+ …
+(A?, B*, C+) …
+
+-->

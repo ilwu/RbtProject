@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Sealed: true
+Main-Class: com.rbt.util.db.orcalediff.OracleDiff
+Class-Path: ojdbc14_g.jar log4j-1.2.17.jar
+
