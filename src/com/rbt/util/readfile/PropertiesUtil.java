@@ -4,12 +4,17 @@
 package com.rbt.util.readfile;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.rbt.util.StringUtil;
+import com.rbt.util.file.PathUtil;
 
 /**
  *
@@ -87,7 +92,20 @@ public class PropertiesUtil {
 		return param;
 	}
 
-
+	/**
+	 * 取得和 jar 檔案相同目錄的 properties 檔案
+	 * @param resourceFileName
+	 * @return
+	 * @throws MalformedURLException
+	 */
+	public ResourceBundle loadRootConfig(String resourceFileName) throws MalformedURLException{
+		Locale currentLocale = Locale.getDefault();
+		File resourceFile = new File(new PathUtil().getCurrentDirectory());
+		URL resourceUrl = resourceFile.toURI().toURL();
+		URL[] urls = { resourceUrl };
+		ClassLoader loader = new URLClassLoader(urls);
+		return ResourceBundle.getBundle(resourceFileName, currentLocale, loader);
+	}
 
 	/**
 	 * @param args

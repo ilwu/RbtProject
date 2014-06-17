@@ -123,7 +123,7 @@ public class OracleDiff {
 			TableInfo targetTableInfo = targetTableInfoMap.get(tableName);
 
 			for (String columnName : targetTableInfo.getColumnNameSet()) {
-				if(!sourceTableInfo.getColumnNameSet().contains(columnName)){
+				if (!sourceTableInfo.getColumnNameSet().contains(columnName)) {
 					reFu.addLine("--來源 TABLE " + tableName + " 缺少欄位 :[" + columnName + "]");
 				}
 			}
@@ -211,11 +211,19 @@ public class OracleDiff {
 					!srcDATA_LENGTH.equals(targetDATA_LENGTH) ||
 					!srcDATA_PRECISION.equals(targetDATA_PRECISION) ||
 					!srcCHAR_LENGTH.equals(targetCHAR_LENGTH)) {
+
 				// ALTER TABLE TES.ALBUM MODIFY (MODTIME LONG RAW(13))
-				if ("NVARCHAR2".equals(srcDATA_TYPE) && "NVARCHAR2".equals(targetDATA_TYPE) && srcCHAR_LENGTH.equals(targetCHAR_LENGTH)) {
+				if ("NVARCHAR2".equals(srcDATA_TYPE) &&
+						"NVARCHAR2".equals(targetDATA_TYPE) &&
+						srcCHAR_LENGTH.equals(targetCHAR_LENGTH)) {
 					// 若型態為 NVARCHAR2 時，DATA_LENGTH 可能依據資料庫不同而異, 故只比對 CHAR_LENGTH
+
 				} else {
-					subFu.addLine("ALTER TABLE " + targetSchema + "." + tableName + " MODIFY (" + COLUMN_NAME + " " + this.getType(srcDATA_TYPE, srcDATA_LENGTH, srcDATA_PRECISION, srcCHAR_LENGTH)
+					subFu.addLine("ALTER TABLE " +
+							targetSchema + "." +
+							tableName + " MODIFY (" + COLUMN_NAME +
+							" " +
+							this.getType(srcDATA_TYPE, srcDATA_LENGTH, srcDATA_PRECISION, srcCHAR_LENGTH)
 							+ ");");
 				}
 			}
@@ -225,7 +233,11 @@ public class OracleDiff {
 			String targetNULLABLE = StringUtil.safeTrim(targetColumnInfo.get("NULLABLE"));
 
 			if (!srcNULLABLE.equals(targetNULLABLE)) {
-				subFu.addLine("ALTER TABLE " + targetSchema + "." + tableName + " MODIFY (" + COLUMN_NAME + " " + ("N".equals(srcNULLABLE) ? "NOT " : "") + "NULL);");
+				subFu.addLine(
+						"ALTER TABLE " +
+						targetSchema + "." +
+						tableName +
+						" MODIFY (" + COLUMN_NAME + " " + ("N".equals(srcNULLABLE) ? "NOT " : "") + "NULL);");
 			}
 
 			// 比較 DATA_DEFAULT
@@ -647,7 +659,6 @@ public class OracleDiff {
 
 		new OracleDiff(srcDbUtil, "TES", targetDbUtil, "TES", "h:/DB_DIFF/", "DB_DIFF_TES.sql");
 	}
-
 
 	/**
 	 * @param args

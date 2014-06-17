@@ -112,6 +112,20 @@ public class RbtDbUtilImpl extends AbstractDBUtil{
 	}
 
 	/**
+	 * 取得連線資訊
+	 * @return
+	 */
+	public String getConnectionInfo(){
+		String str = "\r\n";
+		str += "DRIVER:" + this.driver + "\r\n";
+		str += "url:" + this.url + "\r\n";
+		str += "user:" + this.user + "\r\n";
+		str += "passwd:" + this.passwd + "\r\n";
+		str += "maxConnection:" + this.maxConnection;
+		return str;
+	}
+
+	/**
 	 * Close Connection
 	 * @param conn Connection
 	 * @throws SQLException
