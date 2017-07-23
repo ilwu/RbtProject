@@ -4,6 +4,7 @@
 package com.rbt.util.readfile;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -15,6 +16,8 @@ import java.util.ResourceBundle;
 
 import com.rbt.util.StringUtil;
 import com.rbt.util.file.PathUtil;
+
+import allen.story.Replace16k;
 
 /**
  *
@@ -69,16 +72,46 @@ public class PropertiesUtil {
 				"取得參數檔 " +
 				propertiesPath.substring(propertiesPath.lastIndexOf(File.separator) + 1)
 				+ " 內容");
+		System.out.println(propertiesPath);
 		System.out.println("=============================================================================");
 
 		//開啟參數檔
-		ResourceBundle resourceBundle = ResourceBundle.getBundle(propertiesPath);
+		//ResourceBundle resourceBundle = ResourceBundle.getBundle(propertiesPath);
+		ResourceBundle resourceBundle = ResourceBundle.getBundle(propertiesPath, Locale.TAIWAN);
 		Enumeration<String> enumeration = resourceBundle.getKeys();
 
 		//讀取參數並放入 MAP
 		while(enumeration.hasMoreElements()){
 			String key = enumeration.nextElement();
-			param.put(key, resourceBundle.getString(key));
+			//解決空白會造成 key 錯亂 (properties 中, key 裡面的半形空白以全行代替)
+			String tureKey = key.replaceAll("　", " ");
+
+			//param.put(tureKey, resourceBundle.getString(key));
+			try {
+				String tureKeyC = new String(tureKey.getBytes("ISO-8859-1"), "UTF-8");
+				String cont = new String(resourceBundle.getString(key).getBytes("ISO-8859-1"), "UTF-8");
+				
+				if("zi".equals(tureKey)){
+					System.out.println("==========1:" + cont);
+				}
+				
+				//處理key有空白部分判斷錯誤 ex:nao = dai=腦袋
+				if(cont.indexOf('=')>0){
+					String[] ary = cont.split("=");
+					tureKeyC += " " + ary[0];
+					cont = ary[1];
+				}
+				
+				if("zi".equals(tureKeyC)){
+					System.out.println("==========2");
+				}
+
+				param.put(tureKeyC, cont);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
 		//印出所有參數
@@ -111,6 +144,6 @@ public class PropertiesUtil {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		new PropertiesUtil().read(Replace16k.class);
 	}
 }

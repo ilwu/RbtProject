@@ -10,6 +10,7 @@ import com.rbt.exception.UtilException;
 
 /**
  * 日期通用工具
+ * 
  * @author Allen
  */
 public class DateUtil {
@@ -58,11 +59,13 @@ public class DateUtil {
 	public DateUtil() {
 	}
 
-
 	/**************************************************
 	 * Parse Date to GMT
-	 * @param String Format:yyyymmdd
-	 * @return long - Returns the number of seconds since January 1, 1970, 00:00:00 GMT
+	 * 
+	 * @param String
+	 *            Format:yyyymmdd
+	 * @return long - Returns the number of seconds since January 1, 1970,
+	 *         00:00:00 GMT
 	 * @exception none
 	 **************************************************/
 	public static long parseDate2Long(String date) {
@@ -115,30 +118,37 @@ public class DateUtil {
 		// return Localtime
 		return sdate;
 	}
+
 	// =============================================================================
 	// 取得當下日期時間
 	// =============================================================================
 	/**
 	 * 取得目前系統時間 預設格式(yyyy-MM-dd hh:mm:ss)
+	 * 
 	 * @return
 	 */
-	public static String getCurrentDateTime(){
+	public static String getCurrentDateTime() {
 		return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 	}
 
 	/**
 	 * 取得目前系統時間
-	 * @param format SimpleDateFormat 格式設定
+	 * 
+	 * @param format
+	 *            SimpleDateFormat 格式設定
 	 * @return
 	 */
-	public static String getCurrentDateTime(String format){
+	public static String getCurrentDateTime(String format) {
 		return new SimpleDateFormat(format).format(new Date());
 	}
 
 	/**
 	 * 取得目前日期時間
-	 * @param type 取得日期或時間 參考指定 DateUtil.TYPE_XXXX
-	 * @param style 產生字串的格式 參考指定 DateUtil.STYLE_XXXX
+	 * 
+	 * @param type
+	 *            取得日期或時間 參考指定 DateUtil.TYPE_XXXX
+	 * @param style
+	 *            產生字串的格式 參考指定 DateUtil.STYLE_XXXX
 	 * @return
 	 */
 	public synchronized static String getCurrentDateTime(String type, String style) {
@@ -166,6 +176,7 @@ public class DateUtil {
 	// =============================================================================
 	/**
 	 * 返回指定日期的月份;date Formate yyyymmdd
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -179,7 +190,9 @@ public class DateUtil {
 
 	/**
 	 * 取得當日星期
-	 * @param today 日期 yyyyMMdd
+	 * 
+	 * @param today
+	 *            日期 yyyyMMdd
 	 * @return int 星期日 :1 星期一 :2 星期二 :3 星期三 :4 星期四 :5 星期五 :6 星期六 :7
 	 */
 	static public int getDayOfWeekFromStr(String today) {
@@ -195,9 +208,12 @@ public class DateUtil {
 
 		return dd.get(Calendar.DAY_OF_WEEK);
 	}
+
 	/**
 	 * 取得當日星期
-	 * @param today 日期 yyyyMMdd
+	 * 
+	 * @param today
+	 *            日期 yyyyMMdd
 	 * @return String 星期日 :日 星期一 :一 星期二 :二 星期三 :三 星期四 :四 星期五 :五 星期六 :六
 	 */
 	static public String getChtDayOfWeekFormStr(String today) {
@@ -221,7 +237,9 @@ public class DateUtil {
 
 	/**
 	 * 取得當月的最大天數
-	 * @param dateStr 日期
+	 * 
+	 * @param dateStr
+	 *            日期
 	 * @return int 該日期所在月份的最大天數
 	 * @exception none
 	 */
@@ -245,7 +263,9 @@ public class DateUtil {
 	// =============================================================================
 	/**
 	 * 是否當月的最後一天
-	 * @param currDate 檢查日期 格式 yyyyMMdd
+	 * 
+	 * @param currDate
+	 *            檢查日期 格式 yyyyMMdd
 	 * @return boolean true: 當月的最後一天, false: 非當月的最後一天
 	 */
 	public static boolean isMaxMonthDay(String currDate) {
@@ -262,6 +282,7 @@ public class DateUtil {
 
 	/**
 	 * 是否為上班日 (排除週六、週日)
+	 * 
 	 * @return
 	 */
 	public static boolean isBusinessDay() {
@@ -270,6 +291,7 @@ public class DateUtil {
 
 	/**
 	 * 是否為上班日 (排除週六、週日)
+	 * 
 	 * @param calendar
 	 * @return
 	 */
@@ -284,17 +306,18 @@ public class DateUtil {
 	}
 
 	/**
-	 * 檢查傳入時間是否合法(可傳入xmlTime及strTime)
-	 * ex. 2001-11-12 or 15:16:17 or 2001-12-17T15:16:17+08:00
-	 * ex. 20011112 or 151617 or 20011112151617
-	 * ex. 2001-11-12 15:16:17
+	 * 檢查傳入時間是否合法(可傳入xmlTime及strTime) ex. 2001-11-12 or 15:16:17 or
+	 * 2001-12-17T15:16:17+08:00 ex. 20011112 or 151617 or 20011112151617 ex.
+	 * 2001-11-12 15:16:17
+	 * 
 	 * @param dateString
 	 * @return
 	 */
 	public synchronized static boolean isDateTime(String dateString) {
 		boolean isValid = false;
 		try {
-			if (dateString.length() == 25 || dateString.length() == 10 || (dateString.length() == 8 && dateString.indexOf(":") == 2)) {
+			if (dateString.length() == 25 || dateString.length() == 10
+					|| (dateString.length() == 8 && dateString.indexOf(":") == 2)) {
 				dateString = DateUtil.convertXMLTime2Str(dateString);
 			} else if (dateString.length() == 19) {
 				dateString = DateUtil.convertDateTime2Str(dateString);
@@ -311,13 +334,14 @@ public class DateUtil {
 	// Convert
 	// =============================================================================
 	/**
-	 * 將傳入之字串日期格式轉為calendar,若不合法則throw Exception
-	 * ex. 20011112 or 20011112151617 or 151617
+	 * 將傳入之字串日期格式轉為calendar,若不合法則throw Exception ex. 20011112 or 20011112151617
+	 * or 151617
+	 * 
 	 * @param dateString
 	 * @return
 	 * @throws Exception
 	 */
-	public synchronized static Calendar convertStr2Calendar(String dateString){
+	public synchronized static Calendar convertStr2Calendar(String dateString) {
 		int year = 0, month = 0, date = 0, hour = 0, min = 0, sec = 0, myLen = 0;
 		if (dateString == null) {
 			throw new UtilException("DateUtil.convertStr2Calendar: 傳入日期時間為null!");
@@ -342,7 +366,8 @@ public class DateUtil {
 		try {
 			if (myLen == 8) {
 				calendarObj.set(year, month, date);
-				if (year != calendarObj.get(Calendar.YEAR) || month != (calendarObj.get(Calendar.MONTH)) || date != calendarObj.get(Calendar.DATE)) {
+				if (year != calendarObj.get(Calendar.YEAR) || month != (calendarObj.get(Calendar.MONTH))
+						|| date != calendarObj.get(Calendar.DATE)) {
 					throw new UtilException("DateUtil.convertStr2Calendar: 傳入日期錯誤!");
 				}
 			} else if (myLen == 6) {
@@ -351,9 +376,9 @@ public class DateUtil {
 				}
 			} else if (myLen == 14) {
 				calendarObj.set(year, month, date, hour, min, sec);
-				if (year != calendarObj.get(Calendar.YEAR) || month != (calendarObj.get(Calendar.MONTH)) || date != calendarObj.get(Calendar.DATE)
-						|| hour != calendarObj.get(Calendar.HOUR_OF_DAY) || min != calendarObj.get(Calendar.MINUTE)
-						|| sec != calendarObj.get(Calendar.SECOND)) {
+				if (year != calendarObj.get(Calendar.YEAR) || month != (calendarObj.get(Calendar.MONTH))
+						|| date != calendarObj.get(Calendar.DATE) || hour != calendarObj.get(Calendar.HOUR_OF_DAY)
+						|| min != calendarObj.get(Calendar.MINUTE) || sec != calendarObj.get(Calendar.SECOND)) {
 					throw new UtilException("DateUtil.convertStr2Calendar: 傳入日期或時間錯誤!");
 				}
 			} else {
@@ -400,29 +425,31 @@ public class DateUtil {
 		return rt;
 	}
 
-
 	/**
 	 * 日期格式化函數 YYYY/MM/DD --> YYYYMMDD
-	 * @param  date: 格式化前的字符串,長度必須為10,且是YYYY/MM/DD格式;
-	 *         ??    如果為null,或空串或只有空格的字符串,返回空串;
-	 *         ??    如果長度是不為8的字符串,返回空串;
+	 * 
+	 * @param date:
+	 *            格式化前的字符串,長度必須為10,且是YYYY/MM/DD格式; ?? 如果為null,或空串或只有空格的字符串,返回空串;
+	 *            ?? 如果長度是不為8的字符串,返回空串;
 	 * @return 格式為: YYYYMMDD 的字符串;
 	 */
 	public static String convertDate2Str(String date) {
-		if(date == null) return "";
+		if (date == null)
+			return "";
 		date = date.trim();
-		if(date.equals("&nbsp;")) return "";
-		if (date.length() == 0 || date.length() != 10) return "";
-		date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);
+		if (date.equals("&nbsp;"))
+			return "";
+		if (date.length() == 0 || date.length() != 10)
+			return "";
+		date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
 		return date;
 	}
 
 	/**
-	 * 還原格式化之DateTime(適用西元str)
-	 * ex. 2001/12/17 ==> 20011217
-	 * ex. 2001-12-17 ==> 20011217
-	 * ex. 16:15:17 ==> 161517
-	 * ex. 2001-11-12T15:16:17+08:00 ==> 20011112151617
+	 * 還原格式化之DateTime(適用西元str) ex. 2001/12/17 ==> 20011217 ex. 2001-12-17 ==>
+	 * 20011217 ex. 16:15:17 ==> 161517 ex. 2001-11-12T15:16:17+08:00 ==>
+	 * 20011112151617
+	 * 
 	 * @param myDateTime
 	 * @return
 	 */
@@ -437,15 +464,15 @@ public class DateUtil {
 			}
 		}
 		if (myDateTime.length() == 8) {
-			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + myDateTime.substring(3, 5) + myDateTime.substring(6, 8);
+			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + myDateTime.substring(3, 5)
+					+ myDateTime.substring(6, 8);
 		}
 		return rtnDateTime;
 	}
 
 	/**
-	 * 還原格式化之Time(適用西元str)
-	 * ex. 16:15 ==> 1615
-	 * ex. 16:15:17 ==> 161517
+	 * 還原格式化之Time(適用西元str) ex. 16:15 ==> 1615 ex. 16:15:17 ==> 161517
+	 * 
 	 * @param myDateTime
 	 * @return
 	 */
@@ -463,14 +490,14 @@ public class DateUtil {
 	}
 
 	/**
-	 * 轉換字串格式日期時間為XML格式日期時間(timezone=+08:00)
-	 * ex. 20011112 ==> 2001-11-12
-	 * ex. 20011112151617 ==> 2001-11-12T15:16:17+08:00
+	 * 轉換字串格式日期時間為XML格式日期時間(timezone=+08:00) ex. 20011112 ==> 2001-11-12 ex.
+	 * 20011112151617 ==> 2001-11-12T15:16:17+08:00
+	 * 
 	 * @param xmlTime
 	 * @return
 	 * @throws Exception
 	 */
-	public synchronized static String convertStr2XMLTime(String xmlTime){
+	public synchronized static String convertStr2XMLTime(String xmlTime) {
 		String rtnDateTime = "";
 		String timezone = "+08:00";
 		if (xmlTime == null || (xmlTime.length() != 14 && xmlTime.length() != 6 && xmlTime.length() != 8)) {
@@ -479,14 +506,15 @@ public class DateUtil {
 		if (xmlTime.length() == 6 || xmlTime.length() == 8) {
 			rtnDateTime = formatDateTime(xmlTime);
 		} else if (xmlTime.length() == 14) {
-			rtnDateTime = formatDateTime(xmlTime.substring(0, 8)) + "T" + formatDateTime(xmlTime.substring(8, 14)) + timezone;
+			rtnDateTime = formatDateTime(xmlTime.substring(0, 8)) + "T" + formatDateTime(xmlTime.substring(8, 14))
+					+ timezone;
 		}
 		return rtnDateTime;
 	}
 
 	/**
-	 * 轉換XML格式日期時間為字串格式日期時間
-	 * ex. 2001-12-21 or 16:35:45 or 25碼xml格式日期
+	 * 轉換XML格式日期時間為字串格式日期時間 ex. 2001-12-21 or 16:35:45 or 25碼xml格式日期
+	 * 
 	 * @param strTime
 	 * @return
 	 * @throws Exception
@@ -506,7 +534,9 @@ public class DateUtil {
 
 	/**
 	 * 西元年轉Unix時間格式
-	 * @param today 日期 yyyyMMddhhmmss
+	 * 
+	 * @param today
+	 *            日期 yyyyMMddhhmmss
 	 * @return int \uFFFD
 	 * @exception none
 	 */
@@ -532,7 +562,8 @@ public class DateUtil {
 	/**
 	 * Unix時間格式轉西元年時分秒
 	 *
-	 * @param today 日期 YYYYMMDD
+	 * @param today
+	 *            日期 YYYYMMDD
 	 * @return int \uFFFD
 	 * @exception none
 	 */
@@ -564,14 +595,19 @@ public class DateUtil {
 
 	/**
 	 * 加減日期
-	 * @param date	Date 物件
-	 * @param ROLL_DATE_TYPE	DateUtil.ROLL_DATE_TYPE_XXX 或 Calendar.XXXX
-	 * @param value	 值
-	 * @param format 輸出字串格式化參數
+	 * 
+	 * @param date
+	 *            Date 物件
+	 * @param ROLL_DATE_TYPE
+	 *            DateUtil.ROLL_DATE_TYPE_XXX 或 Calendar.XXXX
+	 * @param value
+	 *            值
+	 * @param format
+	 *            輸出字串格式化參數
 	 * @return String
 	 */
-	public static String addDate(Date date, int ROLL_DATE_TYPE, int value, String format){
-		Calendar calendar=Calendar.getInstance();
+	public static String addDate(Date date, int ROLL_DATE_TYPE, int value, String format) {
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.add(ROLL_DATE_TYPE, value);
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -579,9 +615,9 @@ public class DateUtil {
 	}
 
 	/**
-	 * 取得某日期幾天前或幾天後之日期(須為標準字串格式)
-	 * ex. 20011112 ==> 20011115(加3天)
-	 * ex. 20011112 ==> 20011109(減3天)
+	 * 取得某日期幾天前或幾天後之日期(須為標準字串格式) ex. 20011112 ==> 20011115(加3天) ex. 20011112 ==>
+	 * 20011109(減3天)
+	 * 
 	 * @param orgDate
 	 * @param dayCnt
 	 * @return
@@ -602,9 +638,9 @@ public class DateUtil {
 	}
 
 	/**
-	 * 取得某日期幾月前或幾月後之日期(須為標準字串格式)
-	 * ex. 20040112 ==> 20040412(加3月)
-	 * ex. 20040112 ==> 20040412(減3月)
+	 * 取得某日期幾月前或幾月後之日期(須為標準字串格式) ex. 20040112 ==> 20040412(加3月) ex. 20040112 ==>
+	 * 20040412(減3月)
+	 * 
 	 * @param orgDate
 	 * @param monthCnt
 	 * @return
@@ -629,9 +665,9 @@ public class DateUtil {
 	}
 
 	/**
-	 * 取得某日期幾年前或幾年後之日期(須為標準字串格式)
-	 * ex. 20041112 ==> 20071112(加3年)
-	 * ex. 20041112 ==> 20011112(減3年)
+	 * 取得某日期幾年前或幾年後之日期(須為標準字串格式) ex. 20041112 ==> 20071112(加3年) ex. 20041112 ==>
+	 * 20011112(減3年)
+	 * 
 	 * @param orgDate
 	 * @param yearCnt
 	 * @return
@@ -652,9 +688,9 @@ public class DateUtil {
 	}
 
 	/**
-	 * 取得某日期幾秒前或幾秒後之日期時間(須為標準字串格式)
-	 * ex. 20011112121231 ==> 20011115121232(加1秒)
+	 * 取得某日期幾秒前或幾秒後之日期時間(須為標準字串格式) ex. 20011112121231 ==> 20011115121232(加1秒)
 	 * ex. 20011112121231 ==> 20011112121228(減3秒)
+	 * 
 	 * @param orgDttm
 	 * @param secondCnt
 	 * @return
@@ -675,20 +711,22 @@ public class DateUtil {
 	// =============================================================================
 
 	/**
-	 * 取得某個calendar之時間日期
-	 * 依據type及style取得字串
+	 * 取得某個calendar之時間日期 依據type及style取得字串
+	 * 
 	 * @param calendar
-	 * @param type 取得日期或時間 參考指定 DateUtil.TYPE_XXXX
-	 * @param style 產生字串的格式 參考指定 DateUtil.STYLE_XXXX
+	 * @param type
+	 *            取得日期或時間 參考指定 DateUtil.TYPE_XXXX
+	 * @param style
+	 *            產生字串的格式 參考指定 DateUtil.STYLE_XXXX
 	 * @return
 	 * @throws Exception
 	 */
-	public synchronized static String formatDateTime(Calendar calendar, String type, String style){
+	public synchronized static String formatDateTime(Calendar calendar, String type, String style) {
 		String myDateTime = "";
 
-		//=========================================================
-		//預設格式，未指定時 預設為 西元 日期 + 時間
-		//=========================================================
+		// =========================================================
+		// 預設格式，未指定時 預設為 西元 日期 + 時間
+		// =========================================================
 		if (type == null || type.equals("")) {
 			type = TYPE_DATETIME;
 		}
@@ -696,28 +734,28 @@ public class DateUtil {
 			style = STYLE_AD;
 		}
 
-		//=========================================================
-		//取得日期、時間字串
-		//=========================================================
+		// =========================================================
+		// 取得日期、時間字串
+		// =========================================================
 		String year, month, day, hour, min, sec;
 
-		//年
+		// 年
 		if (style.equals(STYLE_ROC)) {
-			//民國年(西元-1911)，左補3個0
+			// 民國年(西元-1911)，左補3個0
 			year = StringUtil.paddingAndSplit((calendar.get(Calendar.YEAR) - 1911) + "", "0", 3, true);
 		} else {
-			//西元年，左補4個0
+			// 西元年，左補4個0
 			year = StringUtil.paddingAndSplit(calendar.get(Calendar.YEAR) + "", "0", 4, true);
 		}
-		//月
+		// 月
 		month = StringUtil.paddingAndSplit((calendar.get(Calendar.MONTH) + 1) + "", "0", 2, true);
-		//日
+		// 日
 		day = StringUtil.paddingAndSplit(calendar.get(Calendar.DATE) + "", "0", 2, true);
-		//時
+		// 時
 		hour = StringUtil.paddingAndSplit(calendar.get(Calendar.HOUR_OF_DAY) + "", "0", 2, true);
-		//分
+		// 分
 		min = StringUtil.paddingAndSplit(calendar.get(Calendar.MINUTE) + "", "0", 2, true);
-		//秒
+		// 秒
 		sec = StringUtil.paddingAndSplit(calendar.get(Calendar.SECOND) + "", "0", 2, true);
 
 		if (type.equals(TYPE_DATE) || type.equals(TYPE_DATETIME)) {
@@ -728,13 +766,13 @@ public class DateUtil {
 		}
 
 		if (style.equals(STYLE_FORMAT)) {
-			//格式化 CCYY-MM-DD hh:mm:ss
+			// 格式化 CCYY-MM-DD hh:mm:ss
 			myDateTime = formatDateTime(myDateTime);
 		} else if (style.equals(STYLE_XML)) {
-			//XML格式 CCYY-MM-DDThh:mm:ss+hh:ss
+			// XML格式 CCYY-MM-DDThh:mm:ss+hh:ss
 			myDateTime = convertStr2XMLTime(myDateTime);
 		} else if (style.equals(STYLE_FORMAT_FOR_USER)) {
-			//格式化 CCYY/MM/DD hh:mm:ss
+			// 格式化 CCYY/MM/DD hh:mm:ss
 			myDateTime = formateDateTimeForUser(myDateTime);
 		}
 
@@ -743,9 +781,10 @@ public class DateUtil {
 
 	/**
 	 * 日期格式化函數
-	 * @param  date: 格式化前的字符串,長度必須為8,且是YYYYMMDD格式;
-	 *         ??    如果為null,或空串或只有空格的字符串,返回空串;
-	 *         ??    如果長度是不為8的字符串,返回空串;
+	 * 
+	 * @param date:
+	 *            格式化前的字符串,長度必須為8,且是YYYYMMDD格式; ?? 如果為null,或空串或只有空格的字符串,返回空串; ??
+	 *            如果長度是不為8的字符串,返回空串;
 	 * @return 格式為: YYYY/MM/DD 的字符串;
 	 */
 	public static String formatDate(String date) {
@@ -754,24 +793,29 @@ public class DateUtil {
 
 	/**
 	 * 日期格式化函數
-	 * @param  date: 格式化前的字符串,長度必須為8,且是YYYYMMDD格式;
-	 *         ??    如果為null,或空串或只有空格的字符串,返回空串;
-	 *         ??    如果長度是不為8的字符串,返回空串;
-	 * @param splitChar 分割符號
+	 * 
+	 * @param date:
+	 *            格式化前的字符串,長度必須為8,且是YYYYMMDD格式; ?? 如果為null,或空串或只有空格的字符串,返回空串; ??
+	 *            如果長度是不為8的字符串,返回空串;
+	 * @param splitChar
+	 *            分割符號
 	 * @return
 	 */
 	public static String formatDate(String date, String splitChar) {
-		if(date == null) return "";
+		if (date == null)
+			return "";
 		date = date.trim();
-		if(date.equals("&nbsp;")) return "";
-		if (date.length() == 0 || date.length() != 8) return "";
-		date = date.substring(0,4) + splitChar + date.substring(4,6) + splitChar + date.substring(6,8);
+		if (date.equals("&nbsp;"))
+			return "";
+		if (date.length() == 0 || date.length() != 8)
+			return "";
+		date = date.substring(0, 4) + splitChar + date.substring(4, 6) + splitChar + date.substring(6, 8);
 		return date;
 	}
 
 	/**
-	 * 將字串時間做格式化給USER看的格式
-	 * ex. 1516 ==> 15:16
+	 * 將字串時間做格式化給USER看的格式 ex. 1516 ==> 15:16
+	 * 
 	 * @param myDateTime
 	 * @return
 	 */
@@ -786,10 +830,9 @@ public class DateUtil {
 	}
 
 	/**
-	 * 將字串時間做格式化
-	 * ex. 20011217 ==> 2001-12-17
-	 * ex. 151617 ==> 15:16:17
-	 * ex. 20011217151617 ==> 2001-12-17 15:16:17
+	 * 將字串時間做格式化 ex. 20011217 ==> 2001-12-17 ex. 151617 ==> 15:16:17 ex.
+	 * 20011217151617 ==> 2001-12-17 15:16:17
+	 * 
 	 * @param myDateTime
 	 * @return
 	 */
@@ -798,21 +841,23 @@ public class DateUtil {
 		if (myDateTime == null)
 			return "";
 		if (myDateTime.length() == 8 || myDateTime.length() == 14) {
-			rtnDateTime = myDateTime.substring(0, 4) + "-" + myDateTime.substring(4, 6) + "-" + myDateTime.substring(6, 8);
+			rtnDateTime = myDateTime.substring(0, 4) + "-" + myDateTime.substring(4, 6) + "-"
+					+ myDateTime.substring(6, 8);
 			if (myDateTime.length() == 14) {
 				rtnDateTime = rtnDateTime + " ";
 				myDateTime = myDateTime.substring(8);
 			}
 		}
 		if (myDateTime.length() == 6) {
-			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + ":" + myDateTime.substring(2, 4) + ":" + myDateTime.substring(4, 6);
+			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + ":" + myDateTime.substring(2, 4) + ":"
+					+ myDateTime.substring(4, 6);
 		}
 		return rtnDateTime;
 	}
 
 	/**
-	 * 將字串時間做格式化給USER看的格式
-	 * ex. 151617 ==> 15:16:17
+	 * 將字串時間做格式化給USER看的格式 ex. 151617 ==> 15:16:17
+	 * 
 	 * @param myDateTime
 	 * @return
 	 */
@@ -821,16 +866,16 @@ public class DateUtil {
 		if (myDateTime == null)
 			return "";
 		if (myDateTime.length() >= 6) {
-			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + ":" + myDateTime.substring(2, 4) + ":" + myDateTime.substring(4, 6);
+			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + ":" + myDateTime.substring(2, 4) + ":"
+					+ myDateTime.substring(4, 6);
 		}
 		return rtnDateTime;
 	}
 
 	/**
-	 * 將字串時間做格式化給USER看的格式
-	 * ex. 20011217 ==> 2001/12/17
-	 * ex. 151617 ==> 15:16:17
+	 * 將字串時間做格式化給USER看的格式 ex. 20011217 ==> 2001/12/17 ex. 151617 ==> 15:16:17
 	 * ex. 20011217151617 ==> 2001/12/17 15:16:17
+	 * 
 	 * @param myDateTime
 	 * @return
 	 */
@@ -843,7 +888,8 @@ public class DateUtil {
 			myDateTime = myDateTime.substring(0, 14);
 		}
 		if (myDateTime.length() == 8 || myDateTime.length() == 14 || myDateTime.length() == 10) {
-			rtnDateTime = myDateTime.substring(0, 4) + "/" + myDateTime.substring(4, 6) + "/" + myDateTime.substring(6, 8);
+			rtnDateTime = myDateTime.substring(0, 4) + "/" + myDateTime.substring(4, 6) + "/"
+					+ myDateTime.substring(6, 8);
 			if (myDateTime.length() == 14) {
 				rtnDateTime = rtnDateTime + " ";
 				myDateTime = myDateTime.substring(8);
@@ -855,12 +901,28 @@ public class DateUtil {
 			}
 		}
 		if (myDateTime.length() == 6) {
-			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + ":" + myDateTime.substring(2, 4) + ":" + myDateTime.substring(4, 6);
+			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2) + ":" + myDateTime.substring(2, 4) + ":"
+					+ myDateTime.substring(4, 6);
 		}
 		if (myDateTime.length() == 2) {
 			rtnDateTime = rtnDateTime + myDateTime.substring(0, 2);
 		}
 
 		return rtnDateTime;
+	}
+
+	/**
+	 * 秒數換算:時/分/秒
+	 * @param 秒數
+	 * @return hh:mm:ss
+	 */
+	public static String timeFormat(int t)
+	{
+		long hour = t / 3600; // 小時
+		long minute = t % 3600 / 60; // 分鐘
+		long second = t % 60; // 秒
+		return StringUtil.padding(hour, "0", 2, true) + ":" + 
+				StringUtil.padding(minute, "0", 2, true) + ":" + 
+		StringUtil.padding(second, "0", 2, true);
 	}
 }

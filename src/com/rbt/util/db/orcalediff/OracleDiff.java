@@ -30,6 +30,11 @@ public class OracleDiff {
 
 	// private String testTable = "ALBUM";
 
+	public OracleDiff(){
+
+	}
+
+
 	/**
 	 * @throws Exception
 	 *
@@ -320,6 +325,8 @@ public class OracleDiff {
 			fu.addStr(pkStr.substring(1));
 			fu.addStr(")");
 			fu.addLine("");
+		}else{
+
 		}
 
 		fu.addLine(");");
@@ -330,7 +337,7 @@ public class OracleDiff {
 
 		for (LinkedHashMap<String, Object> columnData : columnDataList) {
 			String COLUMN_NAME = StringUtil.safeTrim(columnData.get("COLUMN_NAME"));
-			String COMMENTS = StringUtil.safeTrim(columnData.get("COLUMN_NAME"));
+			String COMMENTS = StringUtil.safeTrim(columnData.get("COMMENTS"));
 
 			fu.addStr("COMMENT ON COLUMN ");
 			fu.addStr(targetSchema + ".");
@@ -387,6 +394,21 @@ public class OracleDiff {
 			return DATA_TYPE + "(" + CHAR_LENGTH + ")";
 		}
 
+		if ("NVARCHAR2".equals(DATA_TYPE.toUpperCase())) {
+			return DATA_TYPE + "(" + CHAR_LENGTH + ")";
+		}
+
+		//為DATE時，無須長度
+		if ("DATE".equals(DATA_TYPE.toUpperCase())) {
+			return "DATE";
+		}
+
+		//BLOB
+		if ("BLOB".equals(DATA_TYPE.toUpperCase())) {
+			return "BLOB";
+		}
+
+
 		return DATA_TYPE + "(" + DATA_LENGTH + ")";
 	}
 
@@ -396,7 +418,7 @@ public class OracleDiff {
 	 * @return
 	 * @throws Exception
 	 */
-	private LinkedHashMap<String, TableInfo> getAllTable(AbstractDBUtil dbUtil, String schema) throws Exception {
+	public LinkedHashMap<String, TableInfo> getAllTable(AbstractDBUtil dbUtil, String schema) throws Exception {
 
 		// =======================================================
 		// 查詢 所有的欄位資訊
@@ -635,13 +657,63 @@ public class OracleDiff {
 
 	}
 
+
+
+	public static void mainFromTest(String[] args) throws Exception {
+
+		RbtDbUtilImpl targetDbUtil  = new RbtDbUtilImpl(
+				TableUtil.DRIVER_Oracle,
+				"jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
+				"cla",
+				"clalabor",
+				5
+				);
+
+		RbtDbUtilImpl srcDbUtil = new RbtDbUtilImpl(
+				TableUtil.DRIVER_Oracle,
+				"jdbc:oracle:thin:@192.168.0.51:1521:evtadb1",
+				"cla",
+				"clalabor!QAZ",
+				5
+				);
+
+		new OracleDiff(srcDbUtil, "CLA", targetDbUtil, "CLA", "h:/DB_DIFF/", "DB_DIFF_CLA(測試為主).sql");
+	}
+
+
 	/**
 	 * @param args
 	 * @throws Exception
 	 */
-	public static void mainTes(String[] args) throws Exception {
+	public static void mainCla(String[] args) throws Exception {
+
+		RbtDbUtilImpl srcDbUtil = new RbtDbUtilImpl(
+				TableUtil.DRIVER_Oracle,
+				"jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
+				"cla",
+				"clalabor",
+				5
+				);
 
 		RbtDbUtilImpl targetDbUtil = new RbtDbUtilImpl(
+				TableUtil.DRIVER_Oracle,
+				"jdbc:oracle:thin:@192.168.0.51:1521:evtadb1",
+				"cla",
+				"clalabor!QAZ",
+				5
+				);
+
+		new OracleDiff(srcDbUtil, "CLA", targetDbUtil, "CLA", "h:/DB_DIFF/", "DB_DIFF_CLA(正式為主).sql");
+	}
+
+	/**
+	 * @param args
+	 * @throws Exception
+	 */
+	public static void mainTES_T2E(String[] args) throws Exception {
+
+		RbtDbUtilImpl targetDbUtil = new RbtDbUtilImpl(
+		//RbtDbUtilImpl srcDbUtil = new RbtDbUtilImpl(
 				TableUtil.DRIVER_Oracle,
 				"jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
 				"tes",
@@ -650,10 +722,11 @@ public class OracleDiff {
 				);
 
 		RbtDbUtilImpl srcDbUtil = new RbtDbUtilImpl(
+		//RbtDbUtilImpl targetDbUtil = new RbtDbUtilImpl(
 				TableUtil.DRIVER_Oracle,
-				"jdbc:oracle:thin:@118.163.126.175:1521:evtadb1",
+				"jdbc:oracle:thin:@192.168.0.51:1521:evtadb1",
 				"tes",
-				"teslabor",
+				"teslabor!QAZ",
 				5
 				);
 
@@ -661,33 +734,11 @@ public class OracleDiff {
 	}
 
 	/**
+	 * 讀取設定檔 OracleDiff
 	 * @param args
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-
-		//RbtDbUtilImpl targetDbUtil = new RbtDbUtilImpl(
-		RbtDbUtilImpl srcDbUtil = new RbtDbUtilImpl(
-				TableUtil.DRIVER_Oracle,
-				"jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
-				"tes",
-				"teslabor",
-				5
-				);
-
-		//RbtDbUtilImpl srcDbUtil = new RbtDbUtilImpl(
-		RbtDbUtilImpl targetDbUtil = new RbtDbUtilImpl(
-				TableUtil.DRIVER_Oracle,
-				"jdbc:oracle:thin:@118.163.126.175:1521:evtadb1",
-				"tes",
-				"teslabor",
-				5
-				);
-
-		new OracleDiff(srcDbUtil, "TES", targetDbUtil, "TES", "h:/DB_DIFF/", "DB_DIFF_TES.sql");
-	}
-
-	public static void mainRelease(String[] args) throws Exception {
 
 		String resourceFileName = "OracleDiff";
 		Locale currentLocale = Locale.getDefault();
@@ -705,6 +756,18 @@ public class OracleDiff {
 				5
 				);
 
+
+		System.out.println("來源資料庫連線測試----");
+		System.out.println(srcDbUtil.getConnectionInfo());
+		try {
+			srcDbUtil.getConnection();
+			System.out.println("連線成功");
+		} catch (Exception e) {
+			System.out.println("連線失敗");
+			System.out.println(StringUtil.getExceptionStackTrace(e));
+			return;
+		}
+
 		RbtDbUtilImpl targetDbUtil = new RbtDbUtilImpl(
 				TableUtil.DRIVER_Oracle,
 				"jdbc:oracle:thin:@" + bundle.getString("target.IP") + ":" + bundle.getString("target.PORT") + ":" + bundle.getString("target.SID") + "",
@@ -712,6 +775,18 @@ public class OracleDiff {
 				bundle.getString("target.PASSWORD"),
 				5
 				);
+
+		System.out.println("目標資料庫連線測試----");
+		System.out.println(targetDbUtil.getConnectionInfo());
+
+		try {
+			targetDbUtil.getConnection();
+			System.out.println("連線成功");
+		} catch (Exception e) {
+			System.out.println("連線失敗");
+			System.out.println(StringUtil.getExceptionStackTrace(e));
+			return;
+		}
 
 		new OracleDiff(srcDbUtil, bundle.getString("src.SCHEMA"), targetDbUtil, bundle.getString("target.SCHEMA"), bundle.getString("result.PATH"), bundle.getString("result.FILENAME"));
 	}

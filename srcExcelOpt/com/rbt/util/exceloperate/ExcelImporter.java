@@ -112,7 +112,7 @@ public class ExcelImporter extends AbstractExcelOperater {
 		// ==============================================
 		String errorMessage = "";
 
-		int rowNum = 1;
+		int rowNum = importConfigInfo.getStartRow();
 		for (LinkedHashMap<String, Object> rowDataMap : dataList) {
 			for (ColumnInfo columnInfo : importConfigInfo.getColumnInfoList()) {
 				// 取得欄位 key

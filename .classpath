@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="srcHitrust"/>
 	<classpathentry kind="src" path="__config"/>
 	<classpathentry kind="src" path="srcAllen"/>
 	<classpathentry kind="src" path="srcExcelOpt"/>
@@ -11,7 +12,7 @@
 	<classpathentry kind="src" path="srcOther"/>
 	<classpathentry kind="src" path="srcFramework"/>
 	<classpathentry kind="src" path="srcMVC"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -251,5 +252,33 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libJaxen/jaxen-1.1.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libDB/ojdbc14_g.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="D:/Programming/Tomcat/7.0.12/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="D:/Programming/ojdbc14_g.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/antlr-runtime-3.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jna-4.1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jna-platform-4.1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jsch.agentproxy.connector-factory-0.0.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jsch.agentproxy.core-0.0.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jsch.agentproxy.pageant-0.0.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jsch.agentproxy.sshagent-0.0.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jsch.agentproxy.svnkit-trilead-ssh2-0.0.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jsch.agentproxy.usocket-jna-0.0.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/jsch.agentproxy.usocket-nc-0.0.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/sequence-library-1.0.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/sqljet-1.1.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/svnkit-1.8.12.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/svnkit-cli-1.8.12.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/svnkit-javahl16-1.8.12.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/trilead-ssh2-1.0.0-build220.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libDB/sqljdbc4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

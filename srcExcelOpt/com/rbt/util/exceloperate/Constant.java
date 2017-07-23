@@ -15,6 +15,7 @@ public class Constant {
 	// ELEMENT
 	// =========================================================
 	public static final String ELEMENT_FUNCTION = "function";
+	public static final String ELEMENT_FORMAT = "format";
 	public static final String ELEMENT_EXCEL = "excel";
 	public static final String ELEMENT_STYLE = "style";
 	public static final String ELEMENT_SHEET = "sheet";
@@ -69,6 +70,7 @@ public class Constant {
 	public static final String ATTRIBUTE_PASS = "@pass";
 	public static final String ATTRIBUTE_INDEX = "@index";
 	public static final String ATTRIBUTE_DEFAULT_VALUE = "@defaultValue";
+	public static final String ATTRIBUTE_FORMATID = "@formatId";
 
 	// ===========================================================================
 	// EXPORT 參數預設值區

@@ -32,9 +32,15 @@ public abstract class AbstractExcelOperater implements InterfaceExcelOperater {
 	 */
 	protected Connection conn;
 
+
 	/**
+	 * 執行設定的外掛方法
+	 * @param columnKey
 	 * @param funcId
+	 * @param funcParam
 	 * @param value
+	 * @param rowDataMap
+	 * @param conn
 	 * @return
 	 */
 	protected String functionProcess(

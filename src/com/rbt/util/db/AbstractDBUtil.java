@@ -109,7 +109,7 @@ public abstract class AbstractDBUtil {
 	public int queryCountByTable(Connection conn, String tablenName, LinkedHashMap<String, Object> whereParamMap) throws Exception {
 
 		// select 參數
-		List<String> selectColumns = new ArrayList();
+		List<String> selectColumns = new ArrayList<String>();
 		selectColumns.add("count(*) as CNT");
 
 		// 查詢
@@ -180,7 +180,7 @@ public abstract class AbstractDBUtil {
 		String queryStr = SqlUtil.genQuerySQL(tablenName, selectColumns, whereParamMap);
 
 		// param Map to list
-		List whereParamList = this.trnsMap2List(whereParamMap);
+		List<Object> whereParamList = this.trnsMap2List(whereParamMap);
 
 		// 查詢
 		return this.query(conn, queryStr, whereParamList);
@@ -304,7 +304,7 @@ public abstract class AbstractDBUtil {
 	 */
 	public List<LinkedHashMap<String, Object>> resultSet2MapList(ResultSet rs) throws SQLException, IOException {
 
-		List<LinkedHashMap<String, Object>> resultList = new ArrayList();
+		List<LinkedHashMap<String, Object>> resultList = new ArrayList<LinkedHashMap<String, Object>>();
 
 		if (rs == null) {
 			return resultList;
@@ -374,7 +374,7 @@ public abstract class AbstractDBUtil {
 	 */
 	public LinkedHashMap<String, Object> queryByKey(Connection conn, String queryStr, Object key) throws Exception {
 		// 查詢參數
-		List param = new ArrayList();
+		List<Object> param = new ArrayList<Object>();
 		if (key != null && !"".equals(key.toString())) {
 			param.add(key);
 		}
@@ -449,7 +449,7 @@ public abstract class AbstractDBUtil {
 
 			// 執行
 			int rowCount = ps.executeUpdate();
-			this.LOG.info("INSERT [" + tablenName + "] :" + rowCount + "筆");
+			this.LOG.debug("INSERT [" + tablenName + "] :" + rowCount + "筆");
 			return rowCount;
 		} catch (SQLException e) {
 			this.LOG.error("DBUtil SQLException!");
@@ -497,7 +497,7 @@ public abstract class AbstractDBUtil {
 		this.LOG.debug("開始 insert (" + dataMapList.size() + " 筆)");
 
 		StringBuffer sqlStr = new StringBuffer();
-		List<Object> paramList = new ArrayList();
+		List<Object> paramList = new ArrayList<Object>();
 		int processTime = 1;
 		int waitProcess = 0;
 		// 2100為 PreparedStatement 參數上限, 故除以參數個數後，可得最多一次可以執行幾筆
@@ -614,7 +614,7 @@ public abstract class AbstractDBUtil {
 		// 兜組SQL
 		String updateSql = SqlUtil.genUpdateSQL(tablenName, setParamMap, whereParamMap);
 		// param 集合
-		List<Object> param = new ArrayList();
+		List<Object> param = new ArrayList<Object>();
 
 		// 放入異動參數
 		if (setParamMap != null) {
@@ -669,7 +669,7 @@ public abstract class AbstractDBUtil {
 
 			// 執行
 			int rowCount = ps.executeUpdate();
-			this.LOG.info("UPDATE [" + updateSql + "] :" + rowCount + "筆");
+			this.LOG.debug("UPDATE [" + updateSql + "] :" + rowCount + "筆");
 			return rowCount;
 		} catch (Exception e) {
 			this.LOG.error("updateSql:[" + updateSql + "]");
@@ -738,7 +738,7 @@ public abstract class AbstractDBUtil {
 		// ==================================
 		// 將 null 參數對應到的 ? 字串改為 null, 並移除該參數
 		// ==================================
-		List<Object> newParam = new ArrayList();
+		List<Object> newParam = new ArrayList<Object>();
 		for (int i = 1; i < partSQL.length; i++) {
 			// 避免param.get(i) 超出 index
 			if (i < param.size() && param.get(i - 1) == null) {
@@ -807,7 +807,7 @@ public abstract class AbstractDBUtil {
 
 			// 執行
 			int rowCount = ps.executeUpdate();
-			this.LOG.info("DELETE [" + tablenName + "] :" + rowCount + "筆");
+			this.LOG.debug("DELETE [" + tablenName + "] :" + rowCount + "筆");
 			return rowCount;
 		} finally {
 			if (ps != null) {
@@ -879,7 +879,7 @@ public abstract class AbstractDBUtil {
 	 */
 	private List<Object> trnsMap2List(LinkedHashMap<String, Object> map) {
 		// param Map to list
-		List<Object> list = new ArrayList();
+		List<Object> list = new ArrayList<Object>();
 
 		if (map != null) {
 			for (Entry<String, Object> entry : map.entrySet()) {

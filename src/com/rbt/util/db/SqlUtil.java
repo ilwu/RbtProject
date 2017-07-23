@@ -5,10 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.log4j.Logger;
 
+import com.rbt.util.BeanUtil;
 import com.rbt.util.StringUtil;
 
 /**
  * SQL 處理工具
+ * 
  * @author Allen
  */
 public class SqlUtil {
@@ -20,18 +22,23 @@ public class SqlUtil {
 
 	/**
 	 * 產生Query SQL
+	 * 
 	 * @param tablenName
 	 * @param selectColumns
 	 * @param whereParam
 	 * @return
 	 */
 	/**
-	 * @param tablenName table name
-	 * @param selectColumns select 欄位字串
-	 * @param whereParam where 參數
+	 * @param tablenName
+	 *            table name
+	 * @param selectColumns
+	 *            select 欄位字串
+	 * @param whereParam
+	 *            where 參數
 	 * @return
 	 */
-	public static String genQuerySQL(String tablenName, List<String> selectColumns, LinkedHashMap<String, Object> whereParam) {
+	public static String genQuerySQL(String tablenName, List<String> selectColumns,
+			LinkedHashMap<String, Object> whereParam) {
 
 		StringBuffer sqlSB = new StringBuffer();
 		// =================================================
@@ -64,6 +71,7 @@ public class SqlUtil {
 	// ==============================================================================================
 	/**
 	 * 產生Insert SQL (參數值以 ? 形式回傳)
+	 * 
 	 * @param tablenName
 	 * @param param
 	 * @return
@@ -74,9 +82,11 @@ public class SqlUtil {
 
 	/**
 	 * 產生Insert SQL
+	 * 
 	 * @param tablenName
 	 * @param param
-	 * @param isSetParam 是否將參數值兜組在SQL中
+	 * @param isSetParam
+	 *            是否將參數值兜組在SQL中
 	 * @return
 	 */
 	public static String genInsertSQL(String tablenName, LinkedHashMap<String, Object> param, boolean isSetParam) {
@@ -89,8 +99,8 @@ public class SqlUtil {
 
 		// 放入所有欄位名稱
 		for (String columnName : param.keySet()) {
-			//key 前綴帶 ## 時, 代表 value 為 function, 需將 columnName 換回正確名稱
-			if (columnName.startsWith("##")){
+			// key 前綴帶 ## 時, 代表 value 為 function, 需將 columnName 換回正確名稱
+			if (columnName.startsWith("##")) {
 				columnName = columnName.substring(2);
 			}
 			sqlSB.append(columnName + ", ");
@@ -101,13 +111,13 @@ public class SqlUtil {
 		// VALUES
 		sqlSB.append(" VALUES (");
 
-		LinkedHashMap<String, Object> newParam = new LinkedHashMap();
+		LinkedHashMap<String, Object> newParam = new LinkedHashMap<String, Object>();
 		for (String columnName : param.keySet()) {
 
 			if (param.get(columnName) == null) {
 				sqlSB.append("null,");
-			} else if (columnName.startsWith("##")){
-				//key 前綴帶 ## 時, 代表 value 為 function
+			} else if (columnName.startsWith("##")) {
+				// key 前綴帶 ## 時, 代表 value 為 function
 				sqlSB.append(param.get(columnName) + ",");
 			} else {
 				if (isSetParam) {
@@ -142,12 +152,17 @@ public class SqlUtil {
 	 * <br>
 	 * 會重置 setParam & whereParam , 參數值有 null 時, 自動拿掉該參數，直接將null補在兜組的SQL中<br>
 	 * ex. set aa=? ==>set aa=null, where aa=? ==> where aa is null
-	 * @param tablenName table Name
-	 * @param setParam 異動欄位 LinkedHashMap
-	 * @param whereParam 異動條件 LinkedHashMap
+	 * 
+	 * @param tablenName
+	 *            table Name
+	 * @param setParam
+	 *            異動欄位 LinkedHashMap
+	 * @param whereParam
+	 *            異動條件 LinkedHashMap
 	 * @return
 	 */
-	public static String genUpdateSQL(String tablenName, LinkedHashMap<String, Object> setParam, LinkedHashMap<String, Object> whereParam) {
+	public static String genUpdateSQL(String tablenName, LinkedHashMap<String, Object> setParam,
+			LinkedHashMap<String, Object> whereParam) {
 		return genUpdateSQL(tablenName, setParam, whereParam, false);
 	}
 
@@ -156,13 +171,19 @@ public class SqlUtil {
 	 * <br>
 	 * 會重置 setParam & whereParam , 參數值有 null 時, 自動拿掉該參數，直接將null補在兜組的SQL中<br>
 	 * ex. set aa=? ==>set aa=null, where aa=? ==> where aa is null
-	 * @param tablenName table Name
-	 * @param setParam 異動欄位 LinkedHashMap
-	 * @param whereParam 異動條件 LinkedHashMap
-	 * @param isSetParam 是否將參數值兜組在SQL中
+	 * 
+	 * @param tablenName
+	 *            table Name
+	 * @param setParam
+	 *            異動欄位 LinkedHashMap
+	 * @param whereParam
+	 *            異動條件 LinkedHashMap
+	 * @param isSetParam
+	 *            是否將參數值兜組在SQL中
 	 * @return
 	 */
-	public static String genUpdateSQL(String tablenName, LinkedHashMap<String, Object> setParam, LinkedHashMap<String, Object> whereParam, boolean isSetParam) {
+	public static String genUpdateSQL(String tablenName, LinkedHashMap<String, Object> setParam,
+			LinkedHashMap<String, Object> whereParam, boolean isSetParam) {
 
 		StringBuffer sqlSB = new StringBuffer();
 		// =================================================
@@ -172,13 +193,13 @@ public class SqlUtil {
 		sqlSB.append("SET ");
 
 		// 放入所有SET欄位名稱
-		HashMap<String, Object> newSetParam = new LinkedHashMap();
+		HashMap<String, Object> newSetParam = new LinkedHashMap<String, Object>();
 		for (String columnName : setParam.keySet()) {
 			if (setParam.get(columnName) == null) {
 				sqlSB.append(columnName + " = null, ");
 
-			} else if (columnName.startsWith("##")){
-				//key 前綴帶 ## 時, 代表 value 為 function
+			} else if (columnName.startsWith("##")) {
+				// key 前綴帶 ## 時, 代表 value 為 function
 				columnName = columnName.substring(2);
 				sqlSB.append(columnName + " = " + setParam.get(columnName) + ", ");
 
@@ -214,6 +235,7 @@ public class SqlUtil {
 	// ==============================================================================================
 	/**
 	 * 產生Delete SQL
+	 * 
 	 * @param tablenName
 	 * @param whereParam
 	 * @return
@@ -243,6 +265,7 @@ public class SqlUtil {
 	 */
 	public static String genWhereSQL(LinkedHashMap<String, Object> whereParam) {
 
+		LOG.debug("whereParam:" + new BeanUtil().showContent(whereParam));
 		StringBuffer sqlSB = new StringBuffer();
 
 		// 無where 條件時直接回傳
@@ -251,20 +274,76 @@ public class SqlUtil {
 		}
 
 		sqlSB.append("WHERE ");
-		LinkedHashMap<String, Object> newWhereParam = new LinkedHashMap();
+		LinkedHashMap<String, Object> newWhereParam = new LinkedHashMap<String, Object>();
 		for (String columnName : whereParam.keySet()) {
 			Object value = whereParam.get(columnName);
 			if (value == null) {
 				// 傳入值為 null
 				sqlSB.append(columnName + " is null and ");
 
+			} else if (columnName.startsWith("!!")) {
+				//將值原封不動放上 SQL
+				sqlSB.append(value + " and ");
+				
+			} else if (columnName.startsWith("%%")) {
+				// like
+				columnName = columnName.substring(2);
+
+				if (List.class.isAssignableFrom(value.getClass())) {
+					// 傳入值為 List
+					List<?> list = (List<?>) value;
+					if (list.size() == 0) {
+						continue;
+					}
+					sqlSB.append("(");
+					String temp = "";
+					for (Object object : list) {
+						temp += "or " + columnName + " like '" + StringUtil.safeTrim(object) + "' ";
+						// newWhereParam.put(columnName, object);
+					}
+					sqlSB.append(temp.substring(2) + ") and ");
+				} else {
+					sqlSB.append(columnName + " like ? and ");
+					newWhereParam.put(columnName, value);
+				}
+
 			} else if (List.class.isAssignableFrom(value.getClass())) {
 				// 傳入值為 List
-				List list = (List) value;
+				List<?> list = (List<?>) value;
 				if (list.size() == 0) {
 					continue;
 				}
 				sqlSB.append(columnName + " in (" + SqlUtil.genInValue(list) + ") and ");
+
+			} else if (columnName.startsWith(">=")) {
+				// 大於等於
+				columnName = columnName.substring(2);
+				newWhereParam.put(columnName, value);
+				sqlSB.append(columnName + " >= ? and ");
+
+			} else if (columnName.startsWith("<=")) {
+				// 小於等於
+				columnName = columnName.substring(2);
+				newWhereParam.put(columnName, value);
+				sqlSB.append(columnName + " <= ? and ");
+
+			} else if (columnName.startsWith("<>")) {
+				// 不等於
+				columnName = columnName.substring(2);
+				newWhereParam.put(columnName, value);
+				sqlSB.append(columnName + " <> ? and ");
+
+			} else if (columnName.startsWith(">")) {
+				// 大於
+				columnName = columnName.substring(1);
+				newWhereParam.put(columnName, value);
+				sqlSB.append(columnName + " > ? and ");
+
+			} else if (columnName.startsWith("<")) {
+				// 小於
+				columnName = columnName.substring(1);
+				newWhereParam.put(columnName, value);
+				sqlSB.append(columnName + " < ? and ");
 
 			} else {
 				//
@@ -277,7 +356,9 @@ public class SqlUtil {
 		sqlSB.replace(sqlSB.length() - 5, sqlSB.length(), " ");
 
 		whereParam.clear();
-		for (String columnName : newWhereParam.keySet()) {
+		for (
+
+		String columnName : newWhereParam.keySet()) {
 			whereParam.put(columnName, newWhereParam.get(columnName));
 		}
 
@@ -289,6 +370,7 @@ public class SqlUtil {
 	// ==============================================================================================
 	/**
 	 * 分隔符號字串 => SQL IN 字串
+	 * 
 	 * @param str
 	 * @param spliteStr
 	 * @return
@@ -307,7 +389,7 @@ public class SqlUtil {
 	 * @param params
 	 * @return
 	 */
-	public static String genInValue(List params) {
+	public static String genInValue(List<?> params) {
 		if (params == null || params.size() == 0) {
 			return "";
 		}
@@ -321,6 +403,7 @@ public class SqlUtil {
 
 	/**
 	 * 處理 IN SQL
+	 * 
 	 * @param paramStr
 	 * @param params
 	 * @return SQL String
@@ -343,6 +426,7 @@ public class SqlUtil {
 
 	/**
 	 * 處理 IN SQL （依據傳入的參數個數,產生對應的?號字串 ex:size=3 -> ?,?,?）
+	 * 
 	 * @param params
 	 * @return SQL String
 	 */
@@ -362,6 +446,7 @@ public class SqlUtil {
 
 	/**
 	 * 處理 IN SQL （依據傳入的參數個數,產生對應的?號字串 ex:size=3 -> ?,?,?）
+	 * 
 	 * @param params
 	 * @return SQL String
 	 */

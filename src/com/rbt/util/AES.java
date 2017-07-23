@@ -103,7 +103,7 @@ public class AES {
 		return str;
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main1(String[] args) throws Exception {
 		String src = "{\"msgState\":\"11\",\"msgId\":\"\",\"msgNo\":\"MOF20130813011\"}";
 		String en = AES.getEncrypt("12140827", src);
 		System.out.println(en);
@@ -112,9 +112,9 @@ public class AES {
 
 	}
 
-	public static void main1(String[] args) throws Exception {
-		String k = "1234";
-		String plain = "測試";
+	public static void main(String[] args) throws Exception {
+		String k = "qppofnm20tjbvj[x-0i1j';wsk";
+		String plain = "tcnrbig";
 		// 加密
 		String en = AES.getHttpEncrypt(k, plain);
 		String encryptd = new String(en);

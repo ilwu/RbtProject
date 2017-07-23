@@ -128,7 +128,7 @@ public class GoogleMapGeocoding {
 	 */
 	public static void main(String[] args) throws UnsupportedEncodingException, IOException {
 
-		String qryAddress = "台中市北屯區昌平路一段95之8號5-2室";
+		String qryAddress = "臺北市內湖區新湖二路289號";
 
 		// for test
 		GeoModel geoModel = new GeoModel();

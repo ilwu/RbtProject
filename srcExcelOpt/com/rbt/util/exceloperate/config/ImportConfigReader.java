@@ -2,6 +2,7 @@ package com.rbt.util.exceloperate.config;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.dom4j.Document;
@@ -11,7 +12,9 @@ import org.dom4j.Node;
 import com.rbt.util.BeanUtil;
 import com.rbt.util.StringUtil;
 import com.rbt.util.exceloperate.Constant;
+import com.rbt.util.exceloperate.bean.common.FunctionInfo;
 import com.rbt.util.exceloperate.bean.impt.config.ColumnInfo;
+import com.rbt.util.exceloperate.bean.impt.config.FormatInfo;
 import com.rbt.util.exceloperate.bean.impt.config.ImportConfigInfo;
 import com.rbt.util.exceloperate.bean.impt.config.ParamInfo;
 import com.rbt.util.exceloperate.exception.ExcelOperateException;
@@ -43,9 +46,14 @@ public class ImportConfigReader extends BaseConfigReader{
 		ImportConfigInfo importConfigInfo = this.readExcelInfo(document, id);
 
 		// =========================================================
-		// 讀取 FormatInfo
+		// 讀取 FunctionInfo
 		// =========================================================
 		importConfigInfo.setFunctionInfoMap(this.readFunctionInfo(document));
+
+		// =========================================================
+		// 讀取 FormatInfo
+		// =========================================================
+		importConfigInfo.setFormatInfoMap(this.readFormatInfo(document));
 
 		return importConfigInfo;
 	}
@@ -120,6 +128,8 @@ public class ImportConfigReader extends BaseConfigReader{
 			ColumnInfo columnInfo = new ColumnInfo();
 			//讀取共通屬性
 			columnInfo.readCommonAttr(columnNode);
+			//formatId
+			columnInfo.setFormatId(StringUtil.safeTrim(columnNode.valueOf(Constant.ATTRIBUTE_FORMATID)));
 			//regexp
 			columnInfo.setRegex(StringUtil.safeTrim(columnNode.valueOf(Constant.ATTRIBUTE_REGEX)));
 			//isNull
@@ -156,6 +166,36 @@ public class ImportConfigReader extends BaseConfigReader{
 
 		return importConfigInfo;
 	}
+
+
+	/**
+	 * @param document
+	 * @return
+	 */
+	protected LinkedHashMap<String, FormatInfo> readFormatInfo(Document document) {
+
+		// =========================================================
+		// 讀取 format 設定
+		// =========================================================
+		List<Node> formatNodeList = document.selectNodes("//" + Constant.ELEMENT_FORMAT);
+
+		// =========================================================
+		// 解析 NODE 設定
+		// =========================================================
+		LinkedHashMap<String, FormatInfo> formatInfoMap = new LinkedHashMap<String, FormatInfo>();
+
+		for (Node funcNode : formatNodeList) {
+			FormatInfo formatInfo = new FormatInfo();
+			formatInfo.setFormatId(StringUtil.safeTrim(funcNode.valueOf(Constant.ATTRIBUTE_FORMATID)));
+			formatInfo.setRegex(StringUtil.safeTrim(funcNode.valueOf(Constant.ATTRIBUTE_REGEX)));
+			formatInfoMap.put(formatInfo.getFormatId(), formatInfo);
+		}
+
+		return formatInfoMap;
+	}
+
+
+
 
 	/**
 	 * 檢核Key 是否重複

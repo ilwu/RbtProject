@@ -29,7 +29,7 @@ public class TableUtil {
 	public static final String DRIVER_DB2 = "COM.ibm.db2.jdbc.net.DB2Driver";
 	public static final String DRIVER_MySQL = "com.mysql.jdbc.Driver";
 	public static final String DRIVER_Oracle = "oracle.jdbc.driver.OracleDriver";
-	public static final String DRIVER_SQLServer = "net.sourceforge.jtds.jdbc.Driver";
+	public static final String DRIVER_SQLServer = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
 	private String driver; // JDBC Driver
 	private String url;
@@ -201,6 +201,11 @@ public class TableUtil {
 		this.databaseType = urlSpilt[1];
 		System.out.println("databaseType:" + this.databaseType);
 	}
+	
+	public String runSpc(String database) throws Exception {
+		
+	}
+	
 
 	/**
 	 * 取得某一 database 中，所有的欄位註解
@@ -329,13 +334,13 @@ public class TableUtil {
 	/**
 	 * @param args
 	 */
-	public static void mainx(String[] args) {
+	public static void main(String[] args) {
 		try {
 			TableUtil tableUtil = new TableUtil(
 					TableUtil.DRIVER_Oracle,
-					"jdbc:oracle:thin:@192.168.1.201:1521:orcl",
-					"cla",
-					"clalabor",
+					"jdbc:oracle:thin:@192.168.0.51:1521:evtadb1",
+					"tes2",
+					"tes2",
 					5
 					);
 
@@ -343,7 +348,7 @@ public class TableUtil {
 			List<String> list = tableUtil.getAllTableName("CLA");
 
 			for (int i = 0; i < list.size(); i++) {
-				System.out.println("drop table \"CLA\".\"" + list.get(i) + "\";");
+				System.out.println("drop table \"TES2\".\"" + list.get(i) + "\";");
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -356,17 +361,18 @@ public class TableUtil {
 	 * @param args
 	 * @throws Exception
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void maincx(String[] args) throws Exception {
 		try {
 			TableUtil tableUtil = new TableUtil(
 					TableUtil.DRIVER_Oracle,
 					"jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
-					"tes",
-					"teslabor",
+					"cla",
+					"clalabor",
 					5
 					);
 
-			System.out.println(tableUtil.getAllTableColumnComments("TES", null));
+			new FileUtil().writeToFile(tableUtil.getAllTableColumnComments("CLA", null), "h:/", "CLA_COMMENT.SQL");
+			//System.out.println(tableUtil.getAllTableColumnComments("CLA", null));
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
