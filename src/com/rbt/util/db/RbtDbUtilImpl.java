@@ -125,6 +125,7 @@ public class RbtDbUtilImpl extends AbstractDBUtil {
 	 * @see com.rbt.util.db.AbstractDBUtil#getConnection()
 	 */
 	public synchronized Connection getConnection() throws SQLException {
+		//Connection pool
 		if (this.connections.size() == 0) {
 			return DriverManager.getConnection(this.url, this.user, this.passwd);
 		}
@@ -287,6 +288,7 @@ public class RbtDbUtilImpl extends AbstractDBUtil {
 			whereParamMap.put("ITEM_ID", "1");
 			
 			rbtDbUtilImpl.updateByTable("uf_GSEO_SYS_CODE", setParamMap, whereParamMap);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
