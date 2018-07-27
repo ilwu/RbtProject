@@ -17,7 +17,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat 7">
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
@@ -253,8 +253,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libDB/ojdbc14_g.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/ezmorph-1.0.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="D:/Programming/Tomcat/7.0.12/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="D:/Programming/ojdbc14_g.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libFramework/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"/>
@@ -280,5 +278,9 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/svnkit-javahl16-1.8.12.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libSVN/trilead-ssh2-1.0.0-build220.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/libDB/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libGson/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libMQ/activemq-client-5.8.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libMQ/geronimo-j2ee-management_1.1_spec-1.0.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/libMQ/jms.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

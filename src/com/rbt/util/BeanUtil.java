@@ -506,7 +506,8 @@ public class BeanUtil {
 	// ====================================================================================
 	// Class finder
 	// ====================================================================================
-	private static LinkedHashMap<String, LinkedHashMap<String, Object>> classFieldMap = new LinkedHashMap();
+	private static LinkedHashMap<String, LinkedHashMap<String, Object>> classFieldMap = 
+			new LinkedHashMap<String, LinkedHashMap<String, Object>>();
 
 /**
 	 * 取得 class 中所有可存取的 field
@@ -714,7 +715,7 @@ public class BeanUtil {
 		try {
 			bean = cls.newInstance();
 		} catch (Exception e) {
-			LOG.equals("class:[" + cls.getName() + "] 初始化失敗!");
+			LOG.error("class:[" + cls.getName() + "] 初始化失敗!");
 			e.printStackTrace();
 			throw e;
 		}

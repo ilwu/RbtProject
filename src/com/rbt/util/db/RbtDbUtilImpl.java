@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -270,13 +271,22 @@ public class RbtDbUtilImpl extends AbstractDBUtil {
 			// );
 
 			RbtDbUtilImpl rbtDbUtilImpl = new RbtDbUtilImpl();
-			System.out.println(rbtDbUtilImpl.getConnectionInfo());
-
-			List<String> list = rbtDbUtilImpl.getAllTableName("oracle");
-
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i));
-			}
+//			System.out.println(rbtDbUtilImpl.getConnectionInfo());
+//
+//			List<String> list = rbtDbUtilImpl.getAllTableName("oracle");
+//			
+//			for (int i = 0; i < list.size(); i++) {
+//				System.out.println(list.get(i));
+//			}
+			
+			LinkedHashMap<String, Object> setParamMap = new LinkedHashMap<String, Object>();
+			setParamMap.put("ITEM_TEXT", "cc");
+			
+			LinkedHashMap<String, Object> whereParamMap = new LinkedHashMap<String, Object>();
+			whereParamMap.put("ITEM_TYPE", "TEST");
+			whereParamMap.put("ITEM_ID", "1");
+			
+			rbtDbUtilImpl.updateByTable("uf_GSEO_SYS_CODE", setParamMap, whereParamMap);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

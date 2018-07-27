@@ -17,6 +17,7 @@ import com.rbt.util.file.FileUtil;
 
 /**
  * DB Utility
+ * 
  * @author Allen Wu
  */
 public class TableUtil {
@@ -42,8 +43,11 @@ public class TableUtil {
 
 	/**
 	 * 建構子 (讀取 PROPERTIES)
-	 * @throws IOException 定義檔不存在時拋出
-	 * @throws ClassNotFoundException JDBC 驅動程式不存在時拋出
+	 * 
+	 * @throws IOException
+	 *             定義檔不存在時拋出
+	 * @throws ClassNotFoundException
+	 *             JDBC 驅動程式不存在時拋出
 	 */
 	public TableUtil() throws IOException, ClassNotFoundException {
 
@@ -71,14 +75,22 @@ public class TableUtil {
 
 	/**
 	 * 建構子
-	 * @param driver JDBC 驅動程式 class name
-	 * @param url 連接 URL
-	 * @param user 使用者名稱
-	 * @param passwd 使用者密碼
-	 * @param maxConnection 連接池中最大Connection數目
-	 * @throws ClassNotFoundException JDBC 驅動程式不存在時拋出
+	 * 
+	 * @param driver
+	 *            JDBC 驅動程式 class name
+	 * @param url
+	 *            連接 URL
+	 * @param user
+	 *            使用者名稱
+	 * @param passwd
+	 *            使用者密碼
+	 * @param maxConnection
+	 *            連接池中最大Connection數目
+	 * @throws ClassNotFoundException
+	 *             JDBC 驅動程式不存在時拋出
 	 */
-	public TableUtil(String driver, String url, String user, String passwd, int maxConnection) throws ClassNotFoundException {
+	public TableUtil(String driver, String url, String user, String passwd, int maxConnection)
+			throws ClassNotFoundException {
 
 		// 取得參數
 		this.driver = driver;
@@ -107,23 +119,27 @@ public class TableUtil {
 
 	/**
 	 * Close Connection
-	 * @param conn Connection
+	 * 
+	 * @param conn
+	 *            Connection
 	 * @throws SQLException
 	 */
 	public synchronized void closeConnection(Connection conn) throws SQLException {
 		if (this.connections.size() == this.maxConnection) {
 			conn.close();
-		}
-		else {
+		} else {
 			this.connections.add(conn);
 		}
 	}
 
 	/**
 	 * 取得 DATABASE 中所有的 TABLE NAME
-	 * @param database database name
+	 * 
+	 * @param database
+	 *            database name
 	 * @return List <String TABLE NAME>
-	 * @throws SQLException 執行錯誤時拋出 SQLException
+	 * @throws SQLException
+	 *             執行錯誤時拋出 SQLException
 	 */
 	public List<String> getAllTableName(String database) throws SQLException {
 
@@ -201,14 +217,10 @@ public class TableUtil {
 		this.databaseType = urlSpilt[1];
 		System.out.println("databaseType:" + this.databaseType);
 	}
-	
-	public String runSpc(String database) throws Exception {
-		
-	}
-	
 
 	/**
 	 * 取得某一 database 中，所有的欄位註解
+	 * 
 	 * @param database
 	 * @param tableNames
 	 * @return
@@ -299,7 +311,6 @@ public class TableUtil {
 				ps.close();
 			}
 
-
 		} finally {
 			if (conn != null)
 				this.closeConnection(conn);
@@ -311,9 +322,9 @@ public class TableUtil {
 		return fu.getContent();
 	}
 
-	private HashMap<String, String> getTableCommemts(Connection conn) throws SQLException{
+	private HashMap<String, String> getTableCommemts(Connection conn) throws SQLException {
 
-		StringBuffer  sqlStr = new StringBuffer();
+		StringBuffer sqlStr = new StringBuffer();
 		sqlStr.append("SELECT table_name, ");
 		sqlStr.append("	   comments ");
 		sqlStr.append("FROM   sys.user_tab_comments ");
@@ -325,7 +336,8 @@ public class TableUtil {
 
 		HashMap<String, String> commentsMap = new HashMap();
 		while (result.next()) {
-			commentsMap.put(StringUtil.safeTrim(result.getString("TABLE_NAME")).toUpperCase(), StringUtil.safeTrim(result.getString("COMMENTS")));
+			commentsMap.put(StringUtil.safeTrim(result.getString("TABLE_NAME")).toUpperCase(),
+					StringUtil.safeTrim(result.getString("COMMENTS")));
 		}
 		return commentsMap;
 
@@ -336,13 +348,8 @@ public class TableUtil {
 	 */
 	public static void main(String[] args) {
 		try {
-			TableUtil tableUtil = new TableUtil(
-					TableUtil.DRIVER_Oracle,
-					"jdbc:oracle:thin:@192.168.0.51:1521:evtadb1",
-					"tes2",
-					"tes2",
-					5
-					);
+			TableUtil tableUtil = new TableUtil(TableUtil.DRIVER_Oracle, "jdbc:oracle:thin:@192.168.0.51:1521:evtadb1",
+					"tes2", "tes2", 5);
 
 			// TableUtil dbUtil = new TableUtil();
 			List<String> list = tableUtil.getAllTableName("CLA");
@@ -363,16 +370,11 @@ public class TableUtil {
 	 */
 	public static void maincx(String[] args) throws Exception {
 		try {
-			TableUtil tableUtil = new TableUtil(
-					TableUtil.DRIVER_Oracle,
-					"jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
-					"cla",
-					"clalabor",
-					5
-					);
+			TableUtil tableUtil = new TableUtil(TableUtil.DRIVER_Oracle, "jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
+					"cla", "clalabor", 5);
 
 			new FileUtil().writeToFile(tableUtil.getAllTableColumnComments("CLA", null), "h:/", "CLA_COMMENT.SQL");
-			//System.out.println(tableUtil.getAllTableColumnComments("CLA", null));
+			// System.out.println(tableUtil.getAllTableColumnComments("CLA", null));
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

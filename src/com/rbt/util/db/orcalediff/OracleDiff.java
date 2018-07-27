@@ -685,25 +685,25 @@ public class OracleDiff {
 	 * @param args
 	 * @throws Exception
 	 */
-	public static void mainCla(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
 		RbtDbUtilImpl srcDbUtil = new RbtDbUtilImpl(
 				TableUtil.DRIVER_Oracle,
-				"jdbc:oracle:thin:@10.100.2.1:1521:LABOR",
-				"cla",
-				"clalabor",
+				"jdbc:oracle:thin:@192.168.100.162:1521:TWMESDB",
+				"gseoprodtw",
+				"gseo0904prodtw",
 				5
 				);
 
 		RbtDbUtilImpl targetDbUtil = new RbtDbUtilImpl(
 				TableUtil.DRIVER_Oracle,
-				"jdbc:oracle:thin:@192.168.0.51:1521:evtadb1",
-				"cla",
-				"clalabor!QAZ",
+				"jdbc:oracle:thin:@192.168.105.95:1521:mestest",
+				"gseoprodtw",
+				"gseoprodtw95",
 				5
 				);
 
-		new OracleDiff(srcDbUtil, "CLA", targetDbUtil, "CLA", "h:/DB_DIFF/", "DB_DIFF_CLA(正式為主).sql");
+		new OracleDiff(srcDbUtil, "GSEOPRODTW", targetDbUtil, "GSEOPRODTW", "d:/DB_DIFF/", "DB_DIFF_CLA(正式為主).sql");
 	}
 
 	/**
@@ -738,7 +738,7 @@ public class OracleDiff {
 	 * @param args
 	 * @throws Exception
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void mainaa(String[] args) throws Exception {
 
 		String resourceFileName = "OracleDiff";
 		Locale currentLocale = Locale.getDefault();

@@ -23,18 +23,9 @@ public class SqlUtil {
 	/**
 	 * 產生Query SQL
 	 * 
-	 * @param tablenName
-	 * @param selectColumns
-	 * @param whereParam
-	 * @return
-	 */
-	/**
-	 * @param tablenName
-	 *            table name
-	 * @param selectColumns
-	 *            select 欄位字串
-	 * @param whereParam
-	 *            where 參數
+	 * @param tablenName table name
+	 * @param selectColumns select 欄位字串
+	 * @param whereParam where 參數
 	 * @return
 	 */
 	public static String genQuerySQL(String tablenName, List<String> selectColumns,
